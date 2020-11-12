@@ -1,58 +1,25 @@
 <div class="root_div">
 
-  <div class="header">
-    <div class="links">
-      <!--in this class, the main header links can be found,
-      Header is positioned fix (sticky), so is always visible
-      -->
-      <a href="http://google.com" class="header_links">User guide</a>
-      <a href="http://google.com" class="header_links">Road Map</a>
-      <a href="http://google.com" class="header_links">Help</a>
-    </div>
-    <p class="username">{{ user }}</p>  <!--non-static value, defined in app.components.ts-->
-  </div>
+
+
   <div class="main_container">
     <!--This is the main container, including logos, controllers, and the main field-->
 
-    <div class="upper_field">
-      <div class="logos">
-        <img src="../images/pte_logo.gif" id="pte_logo">
-      </div>
-
       <div class="user_controller">
-        <button class="user" id="login">
+        <button class="nav-item nav-link user" routerLink="/login" id="login">
           Log in
         </button>
 
-        <button class="user">
+        <button class="user nav-item nav-link" routerLink="/register">
           Sign up
         </button>
       </div>
 
-    </div>
-
-    <div class="main_field">
-      <!--Here the main content can be found. Every sub-component (calculations, registration form etc) will be visible here-->
-      <div class="main_field_title">
-        <p class="title_text">Field Title</p>
+      <div class="routerOutlet">
+        <router-outlet></router-outlet>
       </div>
-
-      <div class="main_field_content">
-        <div class="userinput" style="visibility: visible;">
-          <app-userinput id="userinput_component"></app-userinput>
-        </div>
-
-        <div class="login" style="visibility: hidden;">
-          <app-login id="login_component"></app-login>
-        </div>
-      </div>
-    </div>
-
   </div>
-  <footer class="footer">
-    <!--This container is for contacts, etc-->
-    <p>This is the footer</p>
-  </footer>
+
 </div>
 
 

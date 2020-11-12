@@ -1,0 +1,171 @@
+<div class="root_div">
+
+  <div class="header">
+    <div class="links">
+      <!--in this class, the main header links can be found,
+      Header is positioned fix (sticky), so is always visible
+      -->
+      <a href="http://google.com" class="header_links">User guide</a>
+      <a href="http://google.com" class="header_links">Road Map</a>
+      <a href="http://google.com" class="header_links">Help</a>
+    </div>
+    <p class="username"> user </p>
+  </div>
+  <div class="main_container">
+    <!--This is the main container, including logos, controllers, and the main field-->
+
+    <div class="upper_field">
+      <div class="logos">
+        <img src="../images/pte_logo.gif" id="pte_logo">
+      </div>
+
+
+    </div>
+
+    <div class="main_field">
+      <!--Here the main content can be found. Every sub-component (calculations, registration form etc) will be visible here-->
+      <div class="main_field_title">
+        <p class="title_text">Field Title</p>
+      </div>
+
+
+      <div class="main_field_content">
+        <div class="userinput" style="visibility: visible;">
+          <app-userinput id="userinput_component"></app-userinput>
+        </div>
+
+        <!--
+        <div class="login" style="visibility: hidden;">
+          <app-login id="login_component"></app-login>
+        </div>
+        -->
+      </div>
+    </div>
+
+  </div>
+  <footer class="footer">
+    <!--This container is for contacts, etc-->
+    <p>This is the footer</p>
+  </footer>
+</div>
+
+<style>
+
+body{
+  height: 100%;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.header, .footer{
+  margin-left: auto;
+  margin-right: auto;
+  width: 95vw;
+  position: sticky;
+  background-color: rgb(100,100,100);
+  border-style: groove;
+  border-radius: 10px;
+}
+.header{
+  height: 45px;
+  background-color: rgb(100,100,100);
+  position: sticky;
+  top: 0;
+}
+
+.footer{
+  height: 70px;
+  bottom: 0;
+}
+.links{
+  float: left;
+}
+p{
+  float:right;
+}
+.header_links{
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 25px;
+  color: white;
+  margin-left: 30px;
+}
+
+ .main_container{
+  margin-left: auto;
+  margin-right: auto;
+  height: 95vh;
+  width: 95vw;
+  background-image: url("../images/backround.jpg");
+  display: flex;
+  flex-direction: column;
+  border-style: groove;
+  border-radius: 10px;
+ }
+
+ .upper_field{
+   display: flex;
+ }
+
+ .logos{
+   align-self: center;
+ }
+
+
+ .user{
+   margin-top: 10px;
+   margin-bottom: 10px;
+   margin-left: 10px;
+   margin-right: 10px;
+   width: 80px;
+   height: 50px;
+   transition: 300ms;
+   border-radius: 5px;
+
+   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+ }
+
+ .user:hover{
+   width: 90px;
+   height: 58px;
+
+   margin-top: 5px;
+   margin-bottom: 5px;
+   margin-left: 6px;
+   margin-right: 6px;
+   transition: 300ms;
+
+   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+
+ }
+
+
+ .main_field{
+   width: 80%;
+   height: 80%;
+   margin: auto;
+   background-color: rgb(210,210,210);
+   display:flex;
+   flex-direction: column;
+   border-radius: 20px;
+   opacity: 0.8;
+
+ }
+
+ .main_field_title{
+  background-color: rgb(100,100,100, 0.8);
+  height: 5%;
+  border-radius: inherit;
+ }
+
+ .title_text{
+   text-align: center;
+   margin-top: auto;
+   margin-bottom: auto;
+ }
+
+ .main_field_content{
+   display: flex;
+ }
+
+</style>

@@ -11,8 +11,7 @@ import { Component } from '@angular/core';
 
 //this is the "class" component, responsible for the logic
 export class AppComponent {
-  user = "Name";
-
+  user = "User Name";
 }
 
 
