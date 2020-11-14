@@ -4,13 +4,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomePage } from './pages/home';
 import { LoginPage } from './pages/login';
+import { LoginComponent } from './components/login';
+import { RegisterComponent } from './components/register';
 
 
 @NgModule({
   declarations: [     //array, which contains all the components, used by the app
     AppComponent,
     HomePage,
-    LoginPage
+    LoginPage,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,5 @@
 
-.root_div{
+.root-div{
   margin-left: auto;
   margin-right: auto;
   height: 100vh;
@@ -17,6 +17,6 @@
   width: 100%;
  }
 
-.logo_img{
+.logo-img{
   float: right;
 }
