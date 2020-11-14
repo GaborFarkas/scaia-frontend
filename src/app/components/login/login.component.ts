@@ -1,8 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
     selector: 'app-login',
-    templateUrl: 'login.component.html',
-    styleUrls: ['login.component.css']
+    templateUrl: 'login.component.html'
 })
-export class LoginComponent {}
+export class LoginComponent {
+    @Output() modeChanged = new EventEmitter<string>();
+
+    public changeMode() {
+        this.modeChanged.emit('register');
+    }
+}
