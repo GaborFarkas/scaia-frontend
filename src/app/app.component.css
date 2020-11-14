@@ -3,7 +3,7 @@
   margin-left: auto;
   margin-right: auto;
   height: 100vh;
-  background-image: url("../images/backround.jpg");
+  background-image: url("/assets/images/backround.jpg");
   display: flex;
   flex-direction: column;
 }
