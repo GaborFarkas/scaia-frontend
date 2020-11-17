@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserinputComponent } from './userinput.component';
+import { addNewJob } from './addNewJob.component';
 
 describe('UserinputComponent', () => {
-  let component: UserinputComponent;
-  let fixture: ComponentFixture<UserinputComponent>;
+  let component: addNewJob;
+  let fixture: ComponentFixture<addNewJob>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UserinputComponent ]
+      declarations: [ addNewJob ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserinputComponent);
+    fixture = TestBed.createComponent(addNewJob);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

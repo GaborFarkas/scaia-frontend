@@ -3,12 +3,27 @@
   <div class="header">
 
     <div class="btn-div">
-      <input class="btn" type="button" value="Add new job">
+      <input class="btn" type="button" value="Add new job" (click)="changeMode('addNewJob')">
       <input class="btn" type="button" value="Job query">
       <input class="btn" type="button" value="Data download">
+      <input class="btn" type="button" value="Contact us">
+      <input class="btn" type="button" value="Help">
+      <input class="btn" type="button" value="Tutorial">
     </div>
+    <div class="user">
+      <p class="username"> Username </p>
+      <i class="fa fa-user icon" aria-hidden="true"></i>
 
-    <p class="username"> user </p>
+      <div class="dropdown">
+        <button class="dropdown-btn"><i class="fas fa-arrow-circle-down dropdown-icon"></i></button>
+        <div class="dropdown-content">
+          <button class="dropdown-content-btn">Change profile</button>
+          <button class="dropdown-content-btn">Settings</button>
+          <button class="dropdown-content-btn">Log out</button>
+        </div>
+      </div>
+
+    </div>
   </div>
   <div class="main_container">
     <!--This is the main container, including logos, controllers, and the main field-->
@@ -22,14 +37,7 @@
 
 
       <div class="main_field_content">
-        <div class="userinput" style="visibility: visible;">
-        </div>
-
-        <!--
-        <div class="login" style="visibility: hidden;">
-          <app-login id="login_component"></app-login>
-        </div>
-        -->
+        <app-addNewJob *ngIf="mode === 'addNewJob'"></app-addNewJob>
       </div>
     </div>
 

@@ -6,6 +6,7 @@ import { HomePage } from './pages/home';
 import { LoginPage } from './pages/login';
 import { LoginComponent } from './components/login';
 import { RegisterComponent } from './components/register';
+import { AddNewJobComponent } from './components/addNewJob';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { RegisterComponent } from './components/register';
     HomePage,
     LoginPage,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    AddNewJobComponent
   ],
   imports: [
     BrowserModule,
