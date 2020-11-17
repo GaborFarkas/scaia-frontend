@@ -7,11 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserinputComponent implements OnInit {
   content_title1 = "User Input";
-
   constructor() { }
-
   ngOnInit(): void {
   }
-
-
 }

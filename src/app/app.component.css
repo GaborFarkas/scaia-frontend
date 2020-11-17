@@ -9,14 +9,16 @@
 }
 
  .footer{
-  height: 15vh;
-  background-color: aqua;
+  height: 12vh;
   display: flex;
   position: absolute;
   bottom: 0;
   width: 100%;
+  padding: 2vh;
+
  }
 
 .logo-img{
-  float: right;
+  height: 100%;
+  margin-left: auto;
 }

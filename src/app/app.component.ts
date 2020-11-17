@@ -13,8 +13,3 @@ import { Component } from '@angular/core';
 export class AppComponent {
   user = "User Name";
 }
-
-
-
-
-
