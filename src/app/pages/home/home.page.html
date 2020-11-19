@@ -4,11 +4,11 @@
 
     <div class="btn-div">
       <input class="btn" type="button" value="Add new job" (click)="changeMode('addNewJob')">
-      <input class="btn" type="button" value="Job query">
-      <input class="btn" type="button" value="Data download">
-      <input class="btn" type="button" value="Contact us">
-      <input class="btn" type="button" value="Help">
-      <input class="btn" type="button" value="Tutorial">
+      <input class="btn" type="button" value="Job query" (click)="changeMode('jobQuery')">
+      <input class="btn" type="button" value="Data download" (click)="changeMode('dataDownload')">
+      <input class="btn" type="button" value="Contact us" (click)="changeMode('contact')">
+      <input class="btn" type="button" value="Help" (click)="changeMode('help')">
+      <input class="btn" type="button" value="Tutorial" (click)="changeMode('tutorial')">
     </div>
     <div class="user">
       <p class="username"> Username </p>
@@ -38,6 +38,11 @@
 
       <div class="main_field_content">
         <app-addNewJob *ngIf="mode === 'addNewJob'"></app-addNewJob>
+        <app-jobQuery *ngIf="mode === 'jobQuery'"></app-jobQuery>
+        <app-dataDownload *ngIf="mode === 'dataDownload'"></app-dataDownload>
+        <app-contact *ngIf="mode === 'contact'"></app-contact>
+        <app-help *ngIf="mode === 'help'"></app-help>
+        <app-tutorial *ngIf="mode === 'tutorial'"></app-tutorial>
       </div>
     </div>
 

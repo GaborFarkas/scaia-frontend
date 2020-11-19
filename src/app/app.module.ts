@@ -7,6 +7,11 @@ import { LoginPage } from './pages/login';
 import { LoginComponent } from './components/login';
 import { RegisterComponent } from './components/register';
 import { AddNewJobComponent } from './components/addNewJob';
+import { JobQueryComponent } from './components/jobQuery';
+import { DataDownloadComponent } from './components/dataDownload';
+import { ContactComponent } from './components/contact';
+import { HelpComponent } from './components/help';
+import { TutorialComponent } from './components/tutorial';
 
 
 @NgModule({
@@ -16,7 +21,12 @@ import { AddNewJobComponent } from './components/addNewJob';
     LoginPage,
     LoginComponent,
     RegisterComponent,
-    AddNewJobComponent
+    AddNewJobComponent,
+    JobQueryComponent,
+    DataDownloadComponent,
+    ContactComponent,
+    HelpComponent,
+    TutorialComponent
   ],
   imports: [
     BrowserModule,
