@@ -1,15 +1,19 @@
 <div class="login-box">
   <h1 class="h1">Login</h1>
-  <div class="textbox">
-    <i class="fa fa-user icon" aria-hidden="true"></i>
-    <input type="text" placeholder="Username">
-  </div>
+  <form>
+    <div class="textbox">
+      <i class="fa fa-user icon" aria-hidden="true"></i>
+      <input type="text" placeholder="Username">
+    </div>
 
-  <div class="textbox">
-    <i class="fa fa-unlock icon" aria-hidden="true"></i>
-    <input type="password" placeholder="Password">
-  </div>
+    <div class="textbox">
+      <i class="fa fa-unlock icon" aria-hidden="true"></i>
+      <input type="password" placeholder="Password">
+    </div>
 
-  <input class="btn" type="button" value="Sign in">
+    <input type="hidden" name="csrf" [value]="token">
+
+    <input class="btn" type="button" value="Sign in">
+  </form>
   <input class="btn" type="button" value="Sign up" (click)="changeMode()">
 </div>

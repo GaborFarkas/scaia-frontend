@@ -12,6 +12,7 @@ import { DataDownloadComponent } from './components/dataDownload';
 import { ContactComponent } from './components/contact';
 import { HelpComponent } from './components/help';
 import { TutorialComponent } from './components/tutorial';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { TutorialComponent } from './components/tutorial';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
