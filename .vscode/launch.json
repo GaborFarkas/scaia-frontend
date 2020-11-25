@@ -18,6 +18,14 @@
             "name": "Launch Chrome",
             "url": "http://localhost:4200",
             "webRoot": "${workspaceFolder}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "runtimeArgs": ["--disable-web-security"],
+            "name": "Launch Chrome (No CORS)",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}"
         }
     ]
 }
