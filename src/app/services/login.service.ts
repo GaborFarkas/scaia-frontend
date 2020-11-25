@@ -10,6 +10,7 @@ export default class LoginService {
 
     // Used for development
     //private loginUrl: string = 'http://localhost/dalmand_backend/api/login';
+    //private loginUrl: string = 'https://sentinel12.ttk.pte.hu/api/login';
 
     constructor(private http: HttpClient) { }
 
