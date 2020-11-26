@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginError, LoginRequest, LoginResponse } from 'src/app/models/login.model';
-import LoginService from 'src/app/services/login.service';
+import AuthService from 'src/app/services/auth.service';
 
 @Component({
     selector: 'app-login',
@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
     @Output() error = new EventEmitter<LoginError>();
 
     constructor(
-        private loginService: LoginService,
+        private loginService: AuthService,
         private formBuilder: FormBuilder,
         private router: Router) {
             this.loginForm = this.formBuilder.group({
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
 
     public ngOnInit() {
         //Use the login service to check if there is a logged-in user.
-        this.loginService.getData().subscribe(data => {
+        this.loginService.getLoginForm().subscribe(data => {
             this.handleResponse(data);
         });
     }
