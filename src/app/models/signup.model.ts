@@ -11,6 +11,7 @@ export interface SingupRequest {
 }
 
 export interface SignupResponse {
+    registrationDisabled?: boolean;
     token?: string;
     error?: LoginError|null;
     recaptcha?: boolean;

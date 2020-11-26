@@ -9,18 +9,19 @@ import AuthService from 'src/app/services/auth.service';
 })
 export class RegisterComponent implements OnInit {
     public signupForm: FormGroup;
+    public registrationDisabled: boolean = false;
     @Output() modeChanged = new EventEmitter<string>();
 
     constructor(
         private authService: AuthService,
         private formBuilder: FormBuilder) {
-            this.createForm({});
+            this.createSignupForm({});
         }
 
     public ngOnInit(): void {
         //Use the signup service to get form variables.
         this.authService.getSignupForm().subscribe(data => {
-            this.createForm(data);
+            this.createSignupForm(data);
         });
     }
 
@@ -42,7 +43,9 @@ export class RegisterComponent implements OnInit {
      * Creates the signup FormGroup with the required validators.
      * @param formData
      */
-    private createForm(formData: SignupResponse): void {
+    private createSignupForm(formData: SignupResponse): void {
+        this.registrationDisabled = formData.registrationDisabled ?? false;
+
         this.signupForm = this.formBuilder.group({
             username: new FormControl('', [Validators.required, Validators.minLength(formData.minUserLength), Validators.maxLength(formData.maxUserLength)]),
             fname: new FormControl('', [Validators.required]),

@@ -1,6 +1,6 @@
 <div class="login-box">
   <h1 class="h1">Sign up</h1>
-  <form [formGroup]="signupForm" (ngSubmit)="onSubmit(signupForm.value)">
+  <form *ngIf="!registrationDisabled" [formGroup]="signupForm" (ngSubmit)="onSubmit(signupForm.value)">
     <div class="textbox">
       <i class="fa fa-user icon" aria-hidden="true"></i>
       <input type="text" placeholder="Username" formControlName="username">
