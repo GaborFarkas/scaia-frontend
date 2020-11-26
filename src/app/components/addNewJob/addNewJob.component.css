@@ -1,3 +1,110 @@
-.userinput_container{
+.userinput-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+}
+
+.header-input{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn-div{
+  display: flex;
+  height: 100%;
   width: 100%;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+}
+.btn-text{
+  color: black;
+  font-weight: 500;
+}
+
+.addNewJob-btn{
+  width: 280px;
+  height: 120px;
+  margin: 20px;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  transition-duration: 400ms;
+
+}
+.btn1{
+  background-color: rgba(250,0,0,1);
+}
+.btn2{
+  background-color: rgba(196, 0, 72,1);
+}
+
+.btn3{
+  background-color: rgba(97, 37, 247,1);
+}
+.btn4{
+  background-color: rgba(85, 189, 0,1);
+}
+ .icon{
+   font-size: 50px;
+   margin: 3px;
+   transition-duration: 400ms;
+   margin-right: 30px;
+   color: black;
+ }
+
+ .btn1:hover .icon{
+  font-size: 60px;
+  transition-duration: 400ms;
+  margin-right:0;
+ }
+
+ .btn1:hover{
+   background-color: rgba(210,0,0,1);
+   transition-duration: 400ms;
+   border: 5px;
+   border-color: rgb(40,40,40);
+   border-style: inset;
+ }
+
+ .btn2:hover .icon{
+  font-size: 60px;
+  transition-duration: 400ms;
+  margin-right:0;
+ }
+ .btn2:hover{
+  background-color: rgba(161, 0, 59,1);
+  transition-duration: 400ms;
+  border: 5px;
+  border-color: rgb(40,40,40);
+  border-style: inset;
+}
+.btn3:hover .icon{
+  font-size: 60px;
+  transition-duration: 400ms;
+  margin-right:0;
+ }
+
+.btn3:hover{
+  background-color: rgba(66, 7, 217,1);
+  transition-duration: 400ms;
+  border: 5px;
+  border-color: rgb(40,40,40);
+  border-style: inset;
+}
+.btn4:hover .icon{
+  font-size: 60px;
+  transition-duration: 400ms;
+  margin-right:0;
+ }
+.btn4:hover{
+  background-color: rgba(72, 150, 8,1);
+  transition-duration: 400ms;
+  border: 5px;
+  border-color: rgb(40,40,40);
+  border-style: inset;
 }

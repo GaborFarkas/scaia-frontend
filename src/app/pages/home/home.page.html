@@ -32,19 +32,13 @@
 
     <div class="main_field" #main_field>
       <!--Here the main content can be found. Every sub-component (calculations, registration form etc) will be visible here-->
-      <div class="main_field_title">
-        <p class="title_text">Field Title</p>
-      </div>
 
-
-      <div class="main_field_content">
         <app-addNewJob *ngIf="mode === 'addNewJob'"></app-addNewJob>
         <app-jobQuery *ngIf="mode === 'jobQuery'"></app-jobQuery>
         <app-dataDownload *ngIf="mode === 'dataDownload'"></app-dataDownload>
         <app-contact *ngIf="mode === 'contact'"></app-contact>
         <app-help *ngIf="mode === 'help'"></app-help>
         <app-tutorial *ngIf="mode === 'tutorial'"></app-tutorial>
-      </div>
     </div>
 
   </div>

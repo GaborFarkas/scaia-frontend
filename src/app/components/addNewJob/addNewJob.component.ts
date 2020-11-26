@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./addNewJob.component.css']
 })
 export class AddNewJobComponent {
-  content_title1 = "User Input";
+  content_title1 = "Add new job";
   ngOnInit(): void {
   }
 }
