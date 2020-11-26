@@ -10,8 +10,8 @@ export default class AuthService {
     private baseUrl: string = '/api';
 
     // Used for development
-    //private loginUrl: string = 'http://localhost/dalmand_backend/api';
-    //private loginUrl: string = 'https://sentinel12.ttk.pte.hu/api';
+    //private baseUrl: string = 'http://localhost/dalmand_backend/api';
+    //private baseUrl: string = 'https://sentinel12.ttk.pte.hu/api';
 
     constructor(private http: HttpClient) { }
 

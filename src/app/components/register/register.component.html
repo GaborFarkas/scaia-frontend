@@ -1,35 +1,37 @@
 <div class="login-box">
   <h1 class="h1">Sign up</h1>
-  <form>
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit(signupForm.value)">
     <div class="textbox">
       <i class="fa fa-user icon" aria-hidden="true"></i>
-      <input type="text" placeholder="Username">
+      <input type="text" placeholder="Username" formControlName="username">
     </div>
 
     <div class="textbox">
       <i class="fa fa-envelope icon" aria-hidden="true"></i>
-      <input type="text" placeholder="E-mail address">
+      <input type="text" placeholder="E-mail address" formControlName="email">
     </div>
 
     <div class="textbox">
       <i class="fa fa-user icon" aria-hidden="true"></i>
-      <input type="text" placeholder="First name">
+      <input type="text" placeholder="First name" formControlName="fname">
     </div>
 
     <div class="textbox">
       <i class="fa fa-user icon" aria-hidden="true"></i>
-      <input type="text" placeholder="Last name">
+      <input type="text" placeholder="Last name" formControlName="lname">
     </div>
 
     <div class="textbox">
       <i class="fa fa-unlock icon" aria-hidden="true"></i>
-      <input type="password" placeholder="Password">
+      <input type="password" placeholder="Password" formControlName="password">
     </div>
 
     <div class="textbox">
       <i class="fa fa-unlock icon" aria-hidden="true"></i>
-      <input type="password" placeholder="Confirm password">
+      <input type="password" placeholder="Confirm password" formControlName="confirm">
     </div>
+
+    <input type="hidden" formControlName="csrf">
 
     <input class="btn" type="submit" value="Sign up">
   </form>

@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
     @Output() error = new EventEmitter<LoginError>();
 
     constructor(
-        private loginService: AuthService,
+        private authService: AuthService,
         private formBuilder: FormBuilder,
         private router: Router) {
             this.loginForm = this.formBuilder.group({
@@ -25,9 +25,9 @@ export class LoginComponent implements OnInit {
             });
         }
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         //Use the login service to check if there is a logged-in user.
-        this.loginService.getLoginForm().subscribe(data => {
+        this.authService.getLoginForm().subscribe(data => {
             this.handleResponse(data);
         });
     }
@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
     public onSubmit(loginData: LoginRequest): void {
         if (loginData.username && loginData.password) {
             //Proceed to login.
-            this.loginService.login(loginData).subscribe(data => {
+            this.authService.login(loginData).subscribe(data => {
                 this.handleResponse(data);
             });
         } else {
@@ -58,7 +58,6 @@ export class LoginComponent implements OnInit {
      * @param resp 
      */
     private handleResponse(resp: LoginResponse): void {
-        console.log(resp);
         if (resp.token) {
             //If we get a token from the server, no user is logged in. Use the token in the login form.
             this.loginForm.patchValue({
@@ -82,7 +81,7 @@ export class LoginComponent implements OnInit {
      * Sets the error message according to the error type.
      * @param err 
      */
-    private handleError(err: LoginError) {
+    private handleError(err: LoginError): void {
         switch (err) {
             case LoginError.INPUT:
                 this.errorMsg = 'Username or password is invalid';
