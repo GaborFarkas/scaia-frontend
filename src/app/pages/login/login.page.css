@@ -1,7 +1,7 @@
-.loginPage-div{
-position: fixed;
-top: 50%;
-transform: translate(10%, -50%);
+.login-page-div{
+    position: fixed;
+    top: 50%;
+    transform: translate(10%, -50%);
 }
 
 .login-box, .h1 {

@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
     public errorMsg: string = "";
     public loginForm: FormGroup;
     @Output() modeChanged = new EventEmitter<string>();
+    @Output() error = new EventEmitter<LoginError>();
 
     constructor(
         private loginService: LoginService,
@@ -64,9 +65,13 @@ export class LoginComponent implements OnInit {
                 csrf: resp.token
             });
         } else if (resp.banned) {
-            this.errorMsg = 'This user was banned from using the application. For further information please contact the administrators.';
+            //Emit error if the user was banned to show a special screen.
+            this.error.emit(LoginError.BANNED);
         } else if (resp.error) {
             this.handleError(resp.error);
+        } else if (resp.userData && !resp.userData.emailVerified) {
+            //Emit error if the user needs to verify their email address to show a special screen.
+            this.error.emit(LoginError.VERIFY);
         } else if (resp.userData) {
             //Navigate back to the home page if a logged-in user is detected.
             this.router.navigate(['']);

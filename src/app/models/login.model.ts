@@ -14,7 +14,10 @@ export interface LoginResponse {
 }
 
 export enum LoginError {
+    NONE = '',
     INPUT = 'input',
     TOKEN = 'token',
-    RECAPTCHA = 'recaptcha'
+    RECAPTCHA = 'recaptcha',
+    BANNED = 'banned',
+    VERIFY = 'verify'
 }
