@@ -1,7 +1,30 @@
 <div class="root-div">
     <!--This is the main container, including logos, controllers, and the main field-->
       <router-outlet></router-outlet>
-      <footer class="footer">
-        <img src="/assets/images/pte_logo.gif" class="logo-img">
-      </footer>
+      <div class="logo-container">
+        <div class="logo-expander" (click)="toggleLogo()">
+          <i [class]="'fas fa-chevron-' + (logoExpanded ? 'right' : 'left')"></i>
+        </div>
+        <a href="http://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-1" target="_blank">
+          <img src="/assets/images/logos/sentinel-1.png" [class]="'logo-hz' + (logoExpanded ? '' : ' logo-hidden')">
+        </a>
+        <a href="http://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-2" target="_blank">
+          <img src="/assets/images/logos/sentinel-2.png" [class]="'logo-hz' + (logoExpanded ? '' : ' logo-hidden')">
+        </a>
+        <a href="https://hpc.niif.hu/index_en.php" target="_blank">
+          <img src="/assets/images/logos/hpc.png" [class]="'logo-hz' + (logoExpanded ? '' : ' logo-hidden')">
+        </a>
+        <a href="http://www.sarmap.ch/wp/" target="_blank">
+          <img src="/assets/images/logos/sarmap.png" [class]="'logo-hz' + (logoExpanded ? '' : ' logo-hidden')">
+        </a>
+        <a href="https://www.esa.int/" target="_blank">
+          <img src="/assets/images/logos/esa.png" class="logo-hz">
+        </a>
+        <a href="https://bonafarmcsoport.hu/tagvallalataink/dalmand-zrt/" target="_blank">
+          <img src="/assets/images/logos/dalmand.png" class="logo-hz">
+        </a>
+        <a href="https://international.pte.hu/" target="_blank">
+          <img src="/assets/images/logos/pte.png" class="logo-sq">
+        </a>
+      </div>
 </div>

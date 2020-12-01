@@ -11,5 +11,9 @@ import { Component } from '@angular/core';
 
 //this is the "class" component, responsible for the logic
 export class AppComponent {
-  user = "User Name";
+  public logoExpanded = false;
+
+  public toggleLogo() {
+    this.logoExpanded = !this.logoExpanded;
+  }
 }
