@@ -13,10 +13,10 @@
 
 .header{
   height: 120px;
+  width: 100%;
   background-image: linear-gradient(rgba(210,210,210,1), rgba(210,210,210,0));
-  position: sticky;
+  position: absolute;
   top: 0;
-
 }
 
 .btn-div, .controller{
@@ -113,8 +113,8 @@
  .main_container{
   margin-left: auto;
   margin-right: auto;
-  height: 95vh;
-  width: 95vw;
+  height: 100%;
+  width: 100%;
   background-image: url("/src/assets/images/backround.jpg");
   display: flex;
   flex-direction: column;
