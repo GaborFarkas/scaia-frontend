@@ -7,6 +7,8 @@ import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
 import ZoomToExtent from 'ol/control/ZoomToExtent';
 import { defaults as defaultControls } from 'ol/control';
+import AuthService from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: 'home.page.html' ,
@@ -16,6 +18,10 @@ import { defaults as defaultControls } from 'ol/control';
 export class HomePage implements AfterViewInit {
 
   map: Map;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router) {}
 
   ngAfterViewInit() {
     this.map = new Map({
@@ -50,6 +56,15 @@ export class HomePage implements AfterViewInit {
     } else {
       this.mode = newMode;
     }
-}
+  }
+
+  /**
+   * Logs out the current user from the application and redirects to the login page.
+   */
+  public logout(): void {
+    this.authService.logout().subscribe(() => {
+      this.router.navigate(["login"]);
+    });
+  }
 
 }

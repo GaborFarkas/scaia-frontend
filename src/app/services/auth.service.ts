@@ -25,6 +25,11 @@ export default class AuthService {
         return this.http.post<LoginResponse>(loginUrl, modelToFormData(loginData));
     }
 
+    logout(): Observable<any> {
+        const logoutUrl: string = this.baseUrl + '/logout';
+        return this.http.get(logoutUrl);
+    }
+
     getSignupForm(): Observable<SignupResponse> {
         const signupUrl: string = this.baseUrl + '/join';
         return this.http.get<SignupResponse>(signupUrl);
