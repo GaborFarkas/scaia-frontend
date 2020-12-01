@@ -14,6 +14,7 @@ import { HelpComponent } from './components/help';
 import { TutorialComponent } from './components/tutorial';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MapComponent } from './components/map';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     DataDownloadComponent,
     ContactComponent,
     HelpComponent,
-    TutorialComponent
+    TutorialComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,
