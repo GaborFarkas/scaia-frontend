@@ -1,5 +1,5 @@
 import { trigger } from '@angular/animations';
-import { Component, EventEmitter, NgModule, Output, ViewChild, ViewEncapsulation, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, EventEmitter, NgModule, Output, ViewChild, ViewEncapsulation, AfterViewInit, ElementRef, OnInit } from '@angular/core';
 
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -9,19 +9,36 @@ import ZoomToExtent from 'ol/control/ZoomToExtent';
 import { defaults as defaultControls } from 'ol/control';
 import AuthService from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { UserData } from 'src/app/models/userdata.model';
 
 @Component({
   templateUrl: 'home.page.html' ,
   styleUrls: [ './home.page.css' ],
   encapsulation: ViewEncapsulation.None
 })
-export class HomePage implements AfterViewInit {
+export class HomePage implements AfterViewInit, OnInit {
 
-  map: Map;
+  private map: Map;
+  private userData: UserData;
+
+  public get userName(): string {
+    return this.userData ? this.userData.fname + " " + this.userData.lname : '';
+  }
 
   constructor(
     private authService: AuthService,
     private router: Router) {}
+
+  ngOnInit() {
+    this.authService.getLoginForm().subscribe(data => {
+      if (data.banned || !data.userData || !data.userData.emailVerified) {
+        // User is banned, needs email verification, or the server is down, go back to the login page.
+        this.router.navigate(["login"]);
+      } else {
+        this.userData = data.userData;
+      }
+    });
+  }
 
   ngAfterViewInit() {
     this.map = new Map({
