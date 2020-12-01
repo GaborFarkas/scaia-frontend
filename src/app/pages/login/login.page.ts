@@ -18,6 +18,13 @@ export class LoginPage {
     }
 
     /**
+     * Indicates whether the user needs to verify their email.
+     */
+    public get needToVerify(): boolean {
+        return this.error === LoginError.VERIFY;
+    }
+
+    /**
      * Returns an error message based on the current error.
      */
     public get errorMsg(): string {
