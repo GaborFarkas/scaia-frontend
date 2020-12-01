@@ -1,23 +1,19 @@
-
 .root-div{
-  margin-left: auto;
-  margin-right: auto;
-  height: 100vh;
+  margin: 0;
+  height: 100%;
+  width: 100%;
   background-image: url("/assets/images/backround.jpg");
   display: flex;
   flex-direction: column;
 }
-.router-div{
-  position: relative;
-}
- .footer{
-  height: 12vh;
+
+.footer{
+  height: 50px;
   display: flex;
   position: absolute;
   bottom: 0;
-  width: 100%;
-  padding: 2vh;
- }
+  right: 0;
+}
 
 .logo-img{
   height: 100%;
