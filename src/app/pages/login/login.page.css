@@ -3,7 +3,9 @@
     top: 50%;
     transform: translate(10%, -50%);
 }
-
+.login-box{
+  width: 400px;
+}
 .login-box, .h1 {
     float: left;
     font-size: 40px;

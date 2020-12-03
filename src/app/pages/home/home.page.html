@@ -14,12 +14,20 @@
       <i class="fa fa-user icon" aria-hidden="true"></i>
 
       <div class="dropdown">
+
         <button class="dropdown-btn"><i class="fas fa-arrow-circle-down dropdown-icon"></i></button>
-        <div class="dropdown-content">
+
+          <ul>
+            <li><a>Change profile</a></li>
+            <li><a>Settings</a></li>
+            <li><a (click)="logout()">Log out</a></li>
+          </ul>
+
+        <!--<div class="dropdown-content">
           <button class="dropdown-content-btn">Change profile</button>
           <button class="dropdown-content-btn">Settings</button>
           <button class="dropdown-content-btn" (click)="logout()">Log out</button>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>
