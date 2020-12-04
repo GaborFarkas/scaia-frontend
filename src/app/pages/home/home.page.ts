@@ -40,6 +40,12 @@ export class HomePage implements OnInit {
     }
   }
 
+  public getUserName(userName: string){
+    userName = this.userData.fname + ' ' +this.userData.lname;
+    return userName;
+  }
+
+
   /**
    * Logs out the current user from the application and redirects to the login page.
    */

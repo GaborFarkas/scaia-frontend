@@ -1,4 +1,4 @@
-.userinput-container{
+.addNewJob-container{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -7,8 +7,9 @@
 }
 
 .header-input{
-  margin-left: auto;
-  margin-right: auto;
+  align-self: center;
+  color: rgba(0,0,0,1);
+  font-weight: 800;
 }
 
 .btn-div{
@@ -17,10 +18,10 @@
   width: 100%;
   align-items: center;
   justify-content: center;
-  opacity: 1;
+  align-self: center;
 }
 .btn-text{
-  color: black;
+  color: rgba(0,0,0,1);
   font-weight: 500;
 }
 
@@ -54,7 +55,7 @@
    margin: 3px;
    transition-duration: 400ms;
    margin-right: 30px;
-   color: black;
+   color: rgba(0,0,0,1);
  }
 
  .btn1:hover .icon{

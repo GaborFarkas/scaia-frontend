@@ -19,7 +19,7 @@
 
           <ul>
             <li><a>Change profile</a></li>
-            <li><a>Settings</a></li>
+            <li (click)="changeMode('userSettings'); getUserName('')"><a>Settings</a></li>
             <li><a (click)="logout()">Log out</a></li>
           </ul>
 
@@ -36,7 +36,7 @@
     <!--This is the main container, including logos, OL Map, controllers, and the main field-->
     <div class="main_field" *ngIf="mode !== ''">
       <!--Here the main content can be found. Every sub-component (calculations, registration form etc) will be visible here-->
-
+        <app-userSettings *ngIf="mode === 'userSettings'" [userNameInput]="getUserName('')"></app-userSettings>
         <app-addNewJob *ngIf="mode === 'addNewJob'"></app-addNewJob>
         <app-jobQuery *ngIf="mode === 'jobQuery'"></app-jobQuery>
         <app-dataDownload *ngIf="mode === 'dataDownload'"></app-dataDownload>

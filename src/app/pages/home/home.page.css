@@ -17,10 +17,14 @@
   background-image: linear-gradient(rgba(210,210,210,1), rgba(210,210,210,0));
   position: absolute;
   top: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   padding-top: 20px;
+  z-index: +1;
 }
 
-.btn-div, .controller{
+.btn-div{
   float: left;
   margin: 3px;
 }
@@ -30,7 +34,7 @@
   display: flex;
   height: 40%;
   width: 10%;
-  margin-right: 10vh;
+  align-items: center;
  }
  .username, .icon{
    margin-top: auto;
@@ -77,10 +81,12 @@ ul li a{
   display: block;
   color: black;
   cursor: pointer;
+  transition-duration: 300ms;
 }
 
 ul li a:hover{
   background-color: rgba(30, 30, 30, 0.6);
+  transition-duration: 300ms;
 }
 
 .home-btn{

@@ -28,14 +28,14 @@ export class MapComponent implements AfterViewInit {
               center: [2213079.7791264898, 5939220.284081122],
               zoom: 8
             }),
-            controls: defaultControls().extend([
+            controls: []/*defaultControls().extend([
               new ZoomToExtent({
                 extent: [
                   2053079.7791264898, 5719220.284081122,
                   2383079.7791264898, 6209220.284081122
                 ]
               })
-            ])
+            ])*/
         });
     }
 }

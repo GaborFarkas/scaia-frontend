@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./jobQuery.component.css']
 })
 export class JobQueryComponent {
+  content_title1 = "Job Query";
   ngOnInit(): void {
   }
 }

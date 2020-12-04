@@ -15,6 +15,7 @@ import { TutorialComponent } from './components/tutorial';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MapComponent } from './components/map';
+import { UserSettingsComponent } from './components/userSettings';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { MapComponent } from './components/map';
     ContactComponent,
     HelpComponent,
     TutorialComponent,
-    MapComponent
+    MapComponent,
+    UserSettingsComponent
   ],
   imports: [
     BrowserModule,
