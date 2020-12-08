@@ -43,10 +43,14 @@ export class LoginComponent implements OnInit {
      * Attempt to log in using the form's data.
      */
     public onSubmit(loginData: LoginRequest): void {
+        this.errorMsg = '';
         if (loginData.username && loginData.password) {
             //Proceed to login.
             this.authService.login(loginData).subscribe(data => {
                 this.handleResponse(data);
+            },
+            err => {
+                this.handleError(LoginError.SERVER);
             });
         } else {
             this.errorMsg = 'Please fill both the username and the password fields.';
@@ -90,7 +94,10 @@ export class LoginComponent implements OnInit {
                 this.errorMsg = 'Automated login attempt detected. Please try again.';
                 break;
             case LoginError.TOKEN:
-                this.errorMsg = 'Invalid token. Please tr again.';
+                this.errorMsg = 'Invalid token. Please try again.';
+                break;
+            case LoginError.SERVER:
+                this.errorMsg = 'The server is down or encountered an unexpected error. Please try again later.';
                 break;
         }
     }

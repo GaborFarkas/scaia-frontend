@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { LoginError } from 'src/app/models/login.model';
 import { SignupResponse, SingupRequest } from 'src/app/models/signup.model';
 import AuthService from 'src/app/services/auth.service';
 
@@ -10,6 +11,7 @@ import AuthService from 'src/app/services/auth.service';
 export class RegisterComponent implements OnInit {
     public signupForm: FormGroup;
     public registrationDisabled: boolean = false;
+    public errorMsg: string = "";
     @Output() modeChanged = new EventEmitter<string>();
 
     constructor(
@@ -36,7 +38,15 @@ export class RegisterComponent implements OnInit {
      * Attempt to sign up using the form's data.
      */
     public onSubmit(signupData: SingupRequest): void {
-        console.log(signupData);
+        this.errorMsg = '';
+        if (this.signupForm.valid) {
+            this.authService.signup(signupData).subscribe(data => {
+                this.handleResponse(data);
+            },
+            err => {
+                this.handleError(LoginError.SERVER);
+            })
+        }
     }
 
     /**
@@ -45,6 +55,9 @@ export class RegisterComponent implements OnInit {
      */
     private createSignupForm(formData: SignupResponse): void {
         this.registrationDisabled = formData.registrationDisabled ?? false;
+        if (this.registrationDisabled) {
+            this.errorMsg = 'Registration is currently disabled. Please try again later.';
+        }
 
         this.signupForm = this.formBuilder.group({
             username: new FormControl('', [Validators.required, Validators.minLength(formData.minUserLength), Validators.maxLength(formData.maxUserLength)]),
@@ -55,7 +68,44 @@ export class RegisterComponent implements OnInit {
             confirm: new FormControl('', [Validators.required]),
             csrf: new FormControl(formData.token)
         }, {validators: signupFormValidator});
-    } 
+    }
+
+    /**
+     * Handles the response of the server's login endpoint
+     * @param resp 
+     */
+    private handleResponse(resp: SignupResponse): void {
+        if (resp.error) {
+            this.handleError(resp.error);
+        } else if (resp.registrationDisabled) {
+            this.registrationDisabled = true;
+            this.errorMsg = 'Registration is currently disabled. Please try again later.';
+        } else {
+            //Navigate back to the login page if the signup was successful.
+            this.modeChanged.emit('login');
+        }
+    }
+
+    /**
+     * Sets the error message according to the error type.
+     * @param err 
+     */
+    private handleError(err: LoginError): void {
+        switch (err) {
+            case LoginError.INPUT:
+                this.errorMsg = 'One or more of the input fields are invalid.';
+                break;
+            case LoginError.RECAPTCHA:
+                this.errorMsg = 'Automated signup attempt detected. Please try again.';
+                break;
+            case LoginError.TOKEN:
+                this.errorMsg = 'Invalid token. Please try again.';
+                break;
+            case LoginError.SERVER:
+                this.errorMsg = 'The server is down or encountered an unexpected error. Please try again later.';
+                break;
+        }
+    }
 }
 
 const signupFormValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {

@@ -19,5 +19,6 @@ export enum LoginError {
     TOKEN = 'token',
     RECAPTCHA = 'recaptcha',
     BANNED = 'banned',
-    VERIFY = 'verify'
+    VERIFY = 'verify',
+    SERVER = 'server'
 }

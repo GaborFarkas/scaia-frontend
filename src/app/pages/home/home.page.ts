@@ -21,12 +21,15 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.authService.getLoginForm().subscribe(data => {
-      if (data.banned || !data.userData || !data.userData.emailVerified) {
+      if (!data || data.banned || !data.userData || !data.userData.emailVerified) {
         // User is banned, needs email verification, or the server is down, go back to the login page.
         this.router.navigate(["login"]);
       } else {
         this.userData = data.userData;
       }
+    },
+    err => {
+      this.router.navigate(["login"]);
     });
   }
 
