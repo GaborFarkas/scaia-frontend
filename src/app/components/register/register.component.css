@@ -1,0 +1,12 @@
+.form-input {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.form-validation {
+    width: 100%;
+    font-size: small;
+    color: red;
+    margin-left: 10px;
+}

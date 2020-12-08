@@ -1,34 +1,75 @@
 <div class="login-box">
   <h1 class="h1">Sign up</h1>
+  <p *ngIf="errorMsg">{{errorMsg}}</p>
   <form *ngIf="!registrationDisabled" [formGroup]="signupForm" (ngSubmit)="onSubmit(signupForm.value)">
     <div class="textbox">
-      <i class="fa fa-user icon" aria-hidden="true"></i>
-      <input type="text" placeholder="Username" formControlName="username">
+      <div class="form-input">
+        <i class="fa fa-user icon" aria-hidden="true"></i>
+        <input type="text" placeholder="Username" formControlName="username">
+      </div>
+      <div
+        *ngIf="submitted && signupForm.controls.username.errors && signupForm.controls.username.errors.required"
+        class="form-validation"
+      >Username is required.</div>
+      <div
+        *ngIf="submitted && signupForm.controls.username.errors && signupForm.controls.username.errors.minlength"
+        class="form-validation"
+      >Username must be at least {{minUserLength}} characters long.</div>
+      <div
+        *ngIf="submitted && signupForm.controls.username.errors && signupForm.controls.username.errors.maxlength"
+        class="form-validation"
+      >Username must be shorter than {{maxUserLength + 1}} characters.</div>
+      <div
+        *ngIf="submitted && userNameExists"
+        class="form-validation"
+      >The selected username already exists.</div>
+      <div
+        *ngIf="submitted && userNameNotEmail"
+        class="form-validation"
+      >Username must not be an email address.</div>
     </div>
 
     <div class="textbox">
-      <i class="fa fa-envelope icon" aria-hidden="true"></i>
-      <input type="text" placeholder="E-mail address" formControlName="email">
+      <div class="form-input">
+        <i class="fa fa-envelope icon" aria-hidden="true"></i>
+        <input type="text" placeholder="E-mail address" formControlName="email">
+      </div>
+      <div
+        *ngIf="submitted && signupForm.controls.email.errors && signupForm.controls.email.errors.required"
+        class="form-validation"
+      >Email address is required.</div>
+      <div
+        *ngIf="submitted && invalidEmail"
+        class="form-validation"
+      >Invalid email address format.</div>
     </div>
 
     <div class="textbox">
-      <i class="fa fa-user icon" aria-hidden="true"></i>
-      <input type="text" placeholder="First name" formControlName="fname">
+      <div class="form-input">
+        <i class="fa fa-user icon" aria-hidden="true"></i>
+        <input type="text" placeholder="First name" formControlName="fname">
+      </div>
     </div>
 
     <div class="textbox">
-      <i class="fa fa-user icon" aria-hidden="true"></i>
-      <input type="text" placeholder="Last name" formControlName="lname">
+      <div class="form-input">
+        <i class="fa fa-user icon" aria-hidden="true"></i>
+        <input type="text" placeholder="Last name" formControlName="lname">
+      </div>
     </div>
 
     <div class="textbox">
-      <i class="fa fa-unlock icon" aria-hidden="true"></i>
-      <input type="password" placeholder="Password" formControlName="password">
+      <div class="form-input">
+        <i class="fa fa-unlock icon" aria-hidden="true"></i>
+        <input type="password" placeholder="Password" formControlName="password">
+      </div>
     </div>
 
     <div class="textbox">
-      <i class="fa fa-unlock icon" aria-hidden="true"></i>
-      <input type="password" placeholder="Confirm password" formControlName="confirm">
+      <div class="form-input">
+        <i class="fa fa-unlock icon" aria-hidden="true"></i>
+        <input type="password" placeholder="Confirm password" formControlName="confirm">
+      </div>
     </div>
 
     <input type="hidden" formControlName="csrf">
