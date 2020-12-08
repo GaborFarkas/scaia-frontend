@@ -1,17 +1,28 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { LoginError } from 'src/app/models/login.model';
-import { SignupResponse, SingupRequest } from 'src/app/models/signup.model';
+import { SignupError, SignupResponse, SingupRequest } from 'src/app/models/signup.model';
 import AuthService from 'src/app/services/auth.service';
 
 @Component({
     selector: 'app-register',
-    templateUrl: 'register.component.html'
+    templateUrl: 'register.component.html',
+    styleUrls: ['register.component.css']
 })
 export class RegisterComponent implements OnInit {
     public signupForm: FormGroup;
     public registrationDisabled: boolean = false;
     public errorMsg: string = "";
+    public submitted: boolean = false;
+
+    public minUserLength: number = 0;
+    public maxUserLength: number = Infinity;
+    public minPwLength: number = 0;
+    public maxPwLength: number = Infinity;
+
+    public userNameExists: boolean = false;
+    public invalidEmail: boolean = false;
+    public userNameNotEmail: boolean = false;
+
     @Output() modeChanged = new EventEmitter<string>();
 
     constructor(
@@ -23,7 +34,15 @@ export class RegisterComponent implements OnInit {
     public ngOnInit(): void {
         //Use the signup service to get form variables.
         this.authService.getSignupForm().subscribe(data => {
+            this.minUserLength = data.minUserLength;
+            this.maxUserLength = data.maxUserLength;
+            this.minPwLength = data.minPwLength;
+            this.maxPwLength = data.maxPwLength;
+
             this.createSignupForm(data);
+        },
+        err => {
+            this.handleError(SignupError.SERVER);
         });
     }
 
@@ -38,14 +57,21 @@ export class RegisterComponent implements OnInit {
      * Attempt to sign up using the form's data.
      */
     public onSubmit(signupData: SingupRequest): void {
+        this.submitted = true;
+        this.userNameExists = false;
+        this.invalidEmail = false;
+        this.userNameNotEmail = false;
         this.errorMsg = '';
+
         if (this.signupForm.valid) {
             this.authService.signup(signupData).subscribe(data => {
                 this.handleResponse(data);
             },
             err => {
-                this.handleError(LoginError.SERVER);
+                this.handleError(SignupError.SERVER);
             })
+        } else {
+            console.log(this.signupForm);
         }
     }
 
@@ -90,27 +116,36 @@ export class RegisterComponent implements OnInit {
      * Sets the error message according to the error type.
      * @param err 
      */
-    private handleError(err: LoginError): void {
+    private handleError(err: SignupError): void {
         switch (err) {
-            case LoginError.INPUT:
+            case SignupError.INPUT:
                 this.errorMsg = 'One or more of the input fields are invalid.';
                 break;
-            case LoginError.RECAPTCHA:
+            case SignupError.RECAPTCHA:
                 this.errorMsg = 'Automated signup attempt detected. Please try again.';
                 break;
-            case LoginError.TOKEN:
+            case SignupError.TOKEN:
                 this.errorMsg = 'Invalid token. Please try again.';
                 break;
-            case LoginError.SERVER:
+            case SignupError.SERVER:
                 this.errorMsg = 'The server is down or encountered an unexpected error. Please try again later.';
+                break;
+            case SignupError.USERNAME:
+                this.userNameExists = true;
+                break;
+            case SignupError.EMAIL:
+                this.invalidEmail = true;
+                break;
+            case SignupError.NOTEMAIL:
+                this.userNameNotEmail = true;
                 break;
         }
     }
 }
 
 const signupFormValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
-    if (control.get('password') !== control.get('confirm')) {
-        return { passwordMustMatch: true};
+    if (control.value.password !== control.value.confirm) {
+        return { passwordMustMatch: true };
     }
 
     return null;

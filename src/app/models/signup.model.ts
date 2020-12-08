@@ -1,5 +1,3 @@
-import { LoginError } from './login.model';
-
 export interface SingupRequest {
     username: string,
     fname: string,
@@ -13,10 +11,21 @@ export interface SingupRequest {
 export interface SignupResponse {
     registrationDisabled?: boolean;
     token?: string;
-    error?: LoginError|null;
+    error?: SignupError|null;
     recaptcha?: boolean;
     minUserLength?: number;
     maxUserLength?: number;
     minPwLength?: number;
     maxPwLength?: number;
+}
+
+export enum SignupError {
+    NONE = '',
+    INPUT = 'input',
+    TOKEN = 'token',
+    RECAPTCHA = 'recaptcha',
+    SERVER = 'server',
+    USERNAME = 'username',
+    EMAIL = 'email',
+    NOTEMAIL = 'notemail'
 }
