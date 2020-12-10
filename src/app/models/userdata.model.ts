@@ -5,6 +5,7 @@ export interface UserData {
     fname: string;
     lname: string;
     language: string;
-    emailVerified: string;
+    emailVerified: boolean;
     admin: boolean;
+    pwReset: boolean;
 }

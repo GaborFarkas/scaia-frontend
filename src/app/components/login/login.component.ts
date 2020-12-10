@@ -76,6 +76,9 @@ export class LoginComponent implements OnInit {
         } else if (resp.userData && !resp.userData.emailVerified) {
             //Emit error if the user needs to verify their email address to show a special screen.
             this.error.emit(LoginError.VERIFY);
+        } else if (resp.userData && resp.userData.pwReset) {
+            //Force PW reset, as it is required by the server.
+            this.modeChanged.emit('passwdreset');
         } else if (resp.userData) {
             //Navigate back to the home page if a logged-in user is detected.
             this.router.navigate(['']);
