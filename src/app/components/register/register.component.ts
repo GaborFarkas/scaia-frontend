@@ -98,7 +98,7 @@ export class RegisterComponent implements OnInit {
 
     /**
      * Handles the response of the server's login endpoint
-     * @param resp 
+     * @param resp
      */
     private handleResponse(resp: SignupResponse): void {
         if (resp.error) {
@@ -114,7 +114,7 @@ export class RegisterComponent implements OnInit {
 
     /**
      * Sets the error message according to the error type.
-     * @param err 
+     * @param err
      */
     private handleError(err: SignupError): void {
         switch (err) {

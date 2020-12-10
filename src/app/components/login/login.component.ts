@@ -6,7 +6,8 @@ import AuthService from 'src/app/services/auth.service';
 
 @Component({
     selector: 'app-login',
-    templateUrl: 'login.component.html'
+    templateUrl: 'login.component.html',
+    styleUrls: ['login.component.css']
 })
 export class LoginComponent implements OnInit {
     public errorMsg: string = "";
@@ -59,7 +60,7 @@ export class LoginComponent implements OnInit {
 
     /**
      * Handles the response of the server's login endpoint
-     * @param resp 
+     * @param resp
      */
     private handleResponse(resp: LoginResponse): void {
         if (resp.token) {
@@ -83,7 +84,7 @@ export class LoginComponent implements OnInit {
 
     /**
      * Sets the error message according to the error type.
-     * @param err 
+     * @param err
      */
     private handleError(err: LoginError): void {
         switch (err) {
