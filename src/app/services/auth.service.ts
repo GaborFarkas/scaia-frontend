@@ -42,12 +42,17 @@ export default class AuthService {
     }
 
     getForgotPasswd() : Observable<ForgotPasswdResponse> {
-        const forgotPwUrl: string = this.baseUrl + '/forgot_password.php';
+        const forgotPwUrl: string = this.baseUrl + '/forgot_password';
         return this.http.get<ForgotPasswdResponse>(forgotPwUrl);
     }
 
     postForgotPasswd(forgotPwData: ForgotPasswdRequest) : Observable<ForgotPasswdResponse> {
-        const forgotPwUrl: string = this.baseUrl + '/forgot_password.php';
+        const forgotPwUrl: string = this.baseUrl + '/forgot_password';
         return this.http.post<ForgotPasswdResponse>(forgotPwUrl, modelToFormData(forgotPwData));
+    }
+
+    verifyResend() : Observable<null> {
+        const verifyUrl: string = this.baseUrl + '/verify_resend';
+        return this.http.get<null>(verifyUrl);
     }
 }

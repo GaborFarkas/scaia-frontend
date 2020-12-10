@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { LoginError } from 'src/app/models/login.model';
+import AuthService from 'src/app/services/auth.service';
 
 @Component({
     templateUrl: './login.page.html',
@@ -9,6 +10,9 @@ import { LoginError } from 'src/app/models/login.model';
 export class LoginPage {
     public mode: string = "login";
     public error: LoginError = LoginError.NONE;
+
+    constructor(
+        private authService: AuthService) {}
 
     /**
      * Indicates whether we need to notify the user about a special case.
@@ -32,7 +36,7 @@ export class LoginPage {
             case LoginError.BANNED:
                 return 'Your account has been suspended indefinitely. For further information, please contact us at xx@yy.zz';
             case LoginError.VERIFY:
-                return 'Please verify your email address before starting to use the application.';
+                return 'Please verify your email address before using the application.';
             default:
                 return '';
         }
@@ -44,5 +48,12 @@ export class LoginPage {
 
     public onError(error: LoginError) {
         this.error = error;
+    }
+
+    /**
+     * Resend the verification email.
+     */
+    public onResend(): void {
+        this.authService.verifyResend().subscribe();
     }
 }
