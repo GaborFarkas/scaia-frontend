@@ -36,8 +36,8 @@ export class LoginComponent implements OnInit {
     /**
      * Change to the registration component.
      */
-    public changeMode(): void {
-        this.modeChanged.emit('register');
+    public changeMode(mode: string): void {
+        this.modeChanged.emit(mode);
     }
 
     /**

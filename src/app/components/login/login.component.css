@@ -4,3 +4,8 @@
   color: red;
   margin-left: 10px;
 }
+
+.forgot-passwd {
+  text-decoration: none;
+  cursor: pointer;
+}

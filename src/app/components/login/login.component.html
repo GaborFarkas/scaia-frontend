@@ -20,5 +20,6 @@
 
     <input class="btn login-btn" type="submit" value="Sign in">
   </form>
-  <input class="btn login-btn" type="button" value="Sign up" (click)="changeMode()">
+  <input class="btn login-btn" type="button" value="Sign up" (click)="changeMode('register')">
+  <a class="forgot-passwd" (click)="changeMode('passwd')">Forgot password?</a>
 </div>
