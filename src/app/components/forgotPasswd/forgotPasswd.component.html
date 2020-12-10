@@ -1,7 +1,7 @@
 <div class="login-box">
     <h1 class="h1">Password recovery</h1>
-    <p *ngIf="errorMsg">{{errorMsg}}</p>
-    <p *ngIf="confirmMsg">{{confirmMsg}}</p>
+    <p *ngIf="errorMsg" class="form-validation generic-error">{{errorMsg}}</p>
+    <p *ngIf="confirmMsg" class="form-validation generic-confirm">{{confirmMsg}}</p>
     <form [formGroup]="passwdForm" (ngSubmit)="onSubmit(passwdForm.value)">
       <div class="textbox">
         <div class="form-input">

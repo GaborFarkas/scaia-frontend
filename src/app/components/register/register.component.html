@@ -1,6 +1,6 @@
 <div class="login-box">
   <h1 class="h1">Sign up</h1>
-  <p *ngIf="errorMsg" class="form-validation">{{errorMsg}}</p>
+  <p *ngIf="errorMsg" class="form-validation generic-error">{{errorMsg}}</p>
   <form *ngIf="!registrationDisabled" [formGroup]="signupForm" (ngSubmit)="onSubmit(signupForm.value)">
     <div class="textbox">
       <div class="form-input">
