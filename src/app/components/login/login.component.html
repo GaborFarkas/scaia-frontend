@@ -3,13 +3,17 @@
   <p *ngIf="errorMsg" class="form-validation">{{errorMsg}}</p>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
     <div class="textbox">
-      <i class="fa fa-user icon" aria-hidden="true"></i>
-      <input type="text" placeholder="Username" formControlName="username">
+      <div class="form-input">
+        <i class="fa fa-user icon" aria-hidden="true"></i>
+        <input type="text" placeholder="Username" formControlName="username">
+      </div>
     </div>
 
     <div class="textbox">
-      <i class="fa fa-unlock icon" aria-hidden="true"></i>
-      <input type="password" placeholder="Password" formControlName="password">
+      <div class="form-input">
+        <i class="fa fa-unlock icon" aria-hidden="true"></i>
+        <input type="password" placeholder="Password" formControlName="password">
+      </div>
     </div>
 
     <input type="hidden" formControlName="csrf">
