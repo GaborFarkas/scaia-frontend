@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { LoginRequest, LoginResponse } from '../models/login.model';
 import { modelToFormData } from '../utils/form.util';
 import { SignupResponse, SingupRequest } from '../models/signup.model';
+import { ForgotPasswdRequest, ForgotPasswdResponse } from '../models/forgotpasswd.model';
 
 @Injectable({ providedIn: 'root' })
 export default class AuthService {
@@ -38,5 +39,15 @@ export default class AuthService {
     signup(signupData: SingupRequest) : Observable<SignupResponse> {
         const signupUrl: string = this.baseUrl + '/join';
         return this.http.post<SignupResponse>(signupUrl, modelToFormData(signupData));
+    }
+
+    getForgotPasswd() : Observable<ForgotPasswdResponse> {
+        const forgotPwUrl: string = this.baseUrl + '/forgot_password.php';
+        return this.http.get<ForgotPasswdResponse>(forgotPwUrl);
+    }
+
+    postForgotPasswd(forgotPwData: ForgotPasswdRequest) : Observable<ForgotPasswdResponse> {
+        const forgotPwUrl: string = this.baseUrl + '/forgot_password.php';
+        return this.http.post<ForgotPasswdResponse>(forgotPwUrl, modelToFormData(forgotPwData));
     }
 }

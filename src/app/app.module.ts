@@ -16,6 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MapComponent } from './components/map';
 import { UserSettingsComponent } from './components/userSettings';
+import { ForgotPasswdComponent } from './components/forgotPasswd';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { UserSettingsComponent } from './components/userSettings';
     LoginPage,
     LoginComponent,
     RegisterComponent,
+    ForgotPasswdComponent,
     AddNewJobComponent,
     JobQueryComponent,
     DataDownloadComponent,

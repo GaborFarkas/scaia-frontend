@@ -5,4 +5,5 @@
   </div>
   <app-login *ngIf="!needUserAttention && mode === 'login'" (modeChanged)="onModeChanged($event)" (error)="onError($event)"></app-login>
   <app-register *ngIf="!needUserAttention && mode === 'register'" (modeChanged)="onModeChanged($event)"></app-register>
+  <app-forgot-passwd *ngIf="!needUserAttention && mode === 'passwd'" (modeChanged)="onModeChanged($event)"></app-forgot-passwd>
 </div>

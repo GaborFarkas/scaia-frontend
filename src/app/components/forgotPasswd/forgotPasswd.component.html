@@ -1,0 +1,26 @@
+<div class="login-box">
+    <h1 class="h1">Password recovery</h1>
+    <p *ngIf="errorMsg">{{errorMsg}}</p>
+    <p *ngIf="confirmMsg">{{confirmMsg}}</p>
+    <form [formGroup]="passwdForm" (ngSubmit)="onSubmit(passwdForm.value)">
+      <div class="textbox">
+        <div class="form-input">
+          <i class="fa fa-envelope icon" aria-hidden="true"></i>
+          <input type="text" placeholder="E-mail address" formControlName="email">
+        </div>
+        <div
+            *ngIf="submitted && passwdForm.controls.email.errors && passwdForm.controls.email.errors.required"
+            class="form-validation"
+        >Email address is required.</div>
+        <div
+            *ngIf="submitted && emailNonExistent"
+            class="form-validation"
+        >There is no registered user with the provided e-mail address.</div>
+      </div>
+  
+      <input type="hidden" formControlName="csrf">
+  
+      <input class="btn login-btn" type="submit" value="Reset password">
+    </form>
+    <input class="btn login-btn" type="button" value="Sign in" (click)="changeMode()">
+</div>
