@@ -26,6 +26,7 @@ export enum SignupError {
     RECAPTCHA = 'recaptcha',
     SERVER = 'server',
     USERNAME = 'username',
-    EMAIL = 'email',
-    NOTEMAIL = 'notemail'
+    INVALIDEMAIL = 'email',
+    NOTEMAIL = 'notemail',
+    EMAILEXISTS = 'emailexists'
 }

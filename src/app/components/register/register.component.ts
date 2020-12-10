@@ -22,6 +22,7 @@ export class RegisterComponent implements OnInit {
     public userNameExists: boolean = false;
     public invalidEmail: boolean = false;
     public userNameNotEmail: boolean = false;
+    public emailExists: boolean = false;
 
     @Output() modeChanged = new EventEmitter<string>();
 
@@ -61,6 +62,7 @@ export class RegisterComponent implements OnInit {
         this.userNameExists = false;
         this.invalidEmail = false;
         this.userNameNotEmail = false;
+        this.emailExists = false;
         this.errorMsg = '';
 
         if (this.signupForm.valid) {
@@ -133,11 +135,14 @@ export class RegisterComponent implements OnInit {
             case SignupError.USERNAME:
                 this.userNameExists = true;
                 break;
-            case SignupError.EMAIL:
+            case SignupError.INVALIDEMAIL:
                 this.invalidEmail = true;
                 break;
             case SignupError.NOTEMAIL:
                 this.userNameNotEmail = true;
+                break;
+            case SignupError.EMAILEXISTS:
+                this.emailExists = true;
                 break;
         }
     }

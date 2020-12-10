@@ -42,6 +42,10 @@
         *ngIf="submitted && invalidEmail"
         class="form-validation"
       >Invalid email address format.</div>
+      <div
+        *ngIf="submitted && emailExists"
+        class="form-validation"
+      >There is aleady a registered user with the provided e-mail address.</div>
     </div>
 
     <div class="textbox">
