@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { LoginError } from 'src/app/models/login.model';
 import AuthService from 'src/app/services/auth.service';
 
@@ -10,6 +10,9 @@ import AuthService from 'src/app/services/auth.service';
 export class LoginPage {
     public mode: string = "login";
     public error: LoginError = LoginError.NONE;
+    public sending: boolean = false;
+
+    @ViewChild('verifyBtn') verifyBtn;
 
     constructor(
         private authService: AuthService) {}
@@ -54,6 +57,16 @@ export class LoginPage {
      * Resend the verification email.
      */
     public onResend(): void {
-        this.authService.verifyResend().subscribe();
+        if (!this.sending) {
+            this.sending = true;
+            (this.verifyBtn as HTMLButtonElement).disabled = true;
+            this.authService.verifyResend().subscribe(() => {
+                (this.verifyBtn as HTMLButtonElement).textContent = 'E-mail sent';
+            },
+            err => {
+                (this.verifyBtn as HTMLButtonElement).disabled = false;
+                this.sending = false;
+            });
+        }
     }
 }

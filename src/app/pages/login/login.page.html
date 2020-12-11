@@ -1,7 +1,7 @@
 <div [class]="'login-page-div' + (needUserAttention ? ' login-page-attention' : '')">
   <div *ngIf="needUserAttention">
     <h1>{{errorMsg}}</h1>
-    <input *ngIf="needToVerify" class="btn login-btn" type="button" value="Resend email" (click)="onResend()">
+    <input #verifyBtn *ngIf="needToVerify" class="btn login-btn" type="button" value="Resend email" (click)="onResend()">
   </div>
   <app-login *ngIf="!needUserAttention && mode === 'login'" (modeChanged)="onModeChanged($event)" (error)="onError($event)"></app-login>
   <app-register *ngIf="!needUserAttention && mode === 'register'" (modeChanged)="onModeChanged($event)"></app-register>
