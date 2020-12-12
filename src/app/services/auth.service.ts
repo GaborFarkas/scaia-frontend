@@ -12,7 +12,7 @@ export default class AuthService {
 
     // Used for development
     //private baseUrl: string = 'http://localhost/dalmand_backend/api';
-    //private baseUrl: string = 'https://sentinel12.ttk.pte.hu/api';
+    //private baseUrl: string = 'http://localhost/php_backend/api';
 
     constructor(private http: HttpClient) { }
 
