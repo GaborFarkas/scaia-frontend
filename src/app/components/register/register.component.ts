@@ -63,8 +63,6 @@ export class RegisterComponent implements OnInit {
             err => {
                 this.handleError(SignupError.SERVER);
             })
-        } else {
-            console.log(this.signupForm);
         }
     }
 

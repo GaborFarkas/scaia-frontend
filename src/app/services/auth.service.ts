@@ -5,6 +5,7 @@ import { LoginRequest, LoginResponse } from '../models/login.model';
 import { modelToFormData } from '../utils/form.util';
 import { SignupResponse, SingupRequest } from '../models/signup.model';
 import { ForgotPasswdRequest, ForgotPasswdResponse } from '../models/forgotpasswd.model';
+import { ResetPasswdRequest, ResetPasswdResponse } from '../models/resetPasswd.model';
 
 @Injectable({ providedIn: 'root' })
 export default class AuthService {
@@ -54,5 +55,23 @@ export default class AuthService {
     verifyResend() : Observable<null> {
         const verifyUrl: string = this.baseUrl + '/verify_resend';
         return this.http.get<null>(verifyUrl);
+    }
+
+    getResetPasswd() : Observable<ResetPasswdResponse> {
+        const resetPwUrl: string = this.baseUrl + '/forgot_password_reset';
+        return this.http.get<ResetPasswdResponse>(resetPwUrl);
+    }
+
+    postResetPasswd(resetPwData: ResetPasswdRequest, email: string, vericode: string) : Observable<ResetPasswdResponse> {
+        const resetPwUrl: string = this.baseUrl + '/forgot_password_reset';
+        const formData: FormData = modelToFormData(resetPwData);
+        if (email) {
+            formData.append('email', email);
+        }
+        if (vericode) {
+            formData.append('vericode', vericode);
+        }
+
+        return this.http.post<ResetPasswdResponse>(resetPwUrl, formData);
     }
 }

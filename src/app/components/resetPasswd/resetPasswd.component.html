@@ -15,6 +15,10 @@
               *ngIf="submitted && passwdForm.controls.password.errors && passwdForm.controls.password.errors.minlength"
               class="form-validation"
             >Password must be at least {{minPwLength}} characters long.</div>
+            <div
+                *ngIf="submitted && passwdForm.controls.password.errors && passwdForm.controls.password.errors.maxlength"
+                class="form-validation"
+            >Password must be shorter than {{maxPwLength + 1}} characters.</div>
           </div>
       
           <div class="textbox">

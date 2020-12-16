@@ -47,12 +47,14 @@ export class ForgotPasswdComponent implements OnInit {
         this.errorMsg = '';
         this.confirmMsg = '';
 
-        this.authService.postForgotPasswd(forgotPwData).subscribe(data => {
-            this.handleResponse(data);
-        },
-        err => {
-            this.handleError(ForgotPasswdError.SERVER);
-        });
+        if (this.passwdForm.valid) {
+            this.authService.postForgotPasswd(forgotPwData).subscribe(data => {
+                this.handleResponse(data);
+            },
+            err => {
+                this.handleError(ForgotPasswdError.SERVER);
+            });
+        }
     }
 
     /**

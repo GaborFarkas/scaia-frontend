@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ForgotPasswdError, ForgotPasswdRequest, ForgotPasswdResponse } from 'src/app/models/forgotpasswd.model';
+import { ResetPasswdError, ResetPasswdRequest, ResetPasswdResponse } from 'src/app/models/resetPasswd.model';
 import AuthService from 'src/app/services/auth.service';
 
 @Component({
@@ -34,45 +34,68 @@ export class ResetPasswdComponent implements OnInit {
         }
 
     public ngOnInit(): void {
+        //Remove query string, we already processed it.
+        this.router.navigate(['login']);
         //Use the login service to check if there is a logged-in user.
-        this.authService.getForgotPasswd().subscribe(data => {
-            this.handleResponse(data);
+        this.authService.getResetPasswd().subscribe(data => {
+            this.minPwLength = data.minPwLength;
+            this.maxPwLength = data.maxPwLength;
+
+            this.createResetForm(data);
+        },
+        err => {
+            this.handleError(ResetPasswdError.SERVER);
         });
+
+        if (this.mandatory) {
+            this.errorMsg = "The system requires you to change your password. Sorry for the inconvenience.";
+        }
     }
 
     /**
-     * Change to the login component, remove query string.
+     * Change to the login component.
      */
     public changeMode(): void {
-        this.router.navigate(['login']);
         this.modeChanged.emit('login');
     }
 
     /**
      * Attempt to reset password using the form's data.
      */
-    public onSubmit(forgotPwData: ForgotPasswdRequest): void {
+    public onSubmit(resetPwData: ResetPasswdRequest): void {
         this.submitted = true;
         this.errorMsg = '';
 
-        this.authService.postForgotPasswd(forgotPwData).subscribe(data => {
-            this.handleResponse(data);
-        },
-        err => {
-            this.handleError(ForgotPasswdError.SERVER);
-        });
+        if (this.passwdForm.valid) {
+            this.authService.postResetPasswd(resetPwData, this.email, this.vericode).subscribe(data => {
+                this.handleResponse(data);
+            },
+            err => {
+                this.handleError(ResetPasswdError.SERVER);
+            });
+        }
+    }
+
+    /**
+     * Creates the reset password FormGroup with the required validators.
+     * @param formData
+     */
+    private createResetForm(formData: ResetPasswdResponse): void {
+        this.passwdForm = this.formBuilder.group({
+            password: new FormControl('', [Validators.required, Validators.minLength(formData.minPwLength), Validators.maxLength(formData.maxPwLength)]),
+            confirm: new FormControl('', [Validators.required]),
+            csrf: new FormControl(formData.token)
+        }, {validators: resetFormValidator});
     }
 
     /**
      * Handles the response of the server's forgot passwd endpoint
      * @param resp 
      */
-    private handleResponse(resp: ForgotPasswdResponse): void {
-        if (resp.token) {
-            //If we get a token from the server, the form is loading. Use the token in the forgot passwd form.
-            this.passwdForm.patchValue({
-                csrf: resp.token
-            });
+    private handleResponse(resp: ResetPasswdResponse): void {
+        if (!resp) {
+            //Reset was successful. Go back to the login page.
+            this.modeChanged.emit('login');
         } else if (resp.error) {
             this.handleError(resp.error);
         }
@@ -82,12 +105,18 @@ export class ResetPasswdComponent implements OnInit {
      * Sets the error message according to the error type.
      * @param err 
      */
-    private handleError(err: ForgotPasswdError): void {
+    private handleError(err: ResetPasswdError): void {
         switch (err) {
-            case ForgotPasswdError.TOKEN:
+            case ResetPasswdError.INPUT:
+                this.errorMsg = 'One or more of the input fields are invalid.';
+                break;
+            case ResetPasswdError.TOKEN:
                 this.errorMsg = 'Invalid token. Please try again.';
                 break;
-            case ForgotPasswdError.SERVER:
+            case ResetPasswdError.EXPIRED:
+                this.errorMsg = 'The reset link has been expired. Please request a new one.';
+                break;
+            case ResetPasswdError.SERVER:
                 this.errorMsg = 'The server is down or encountered an unexpected error. Please try again later.';
                 break;
         }
