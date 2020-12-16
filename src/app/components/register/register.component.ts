@@ -19,11 +19,6 @@ export class RegisterComponent implements OnInit {
     public minPwLength: number = 0;
     public maxPwLength: number = Infinity;
 
-    public userNameExists: boolean = false;
-    public invalidEmail: boolean = false;
-    public userNameNotEmail: boolean = false;
-    public emailExists: boolean = false;
-
     @Output() modeChanged = new EventEmitter<string>();
 
     constructor(
@@ -59,10 +54,6 @@ export class RegisterComponent implements OnInit {
      */
     public onSubmit(signupData: SingupRequest): void {
         this.submitted = true;
-        this.userNameExists = false;
-        this.invalidEmail = false;
-        this.userNameNotEmail = false;
-        this.emailExists = false;
         this.errorMsg = '';
 
         if (this.signupForm.valid) {
@@ -133,16 +124,24 @@ export class RegisterComponent implements OnInit {
                 this.errorMsg = 'The server is down or encountered an unexpected error. Please try again later.';
                 break;
             case SignupError.USERNAME:
-                this.userNameExists = true;
+                this.signupForm.setErrors({
+                    userNameExists: true
+                });
                 break;
             case SignupError.INVALIDEMAIL:
-                this.invalidEmail = true;
+                this.signupForm.setErrors({
+                    invalidEmail: true
+                });
                 break;
             case SignupError.NOTEMAIL:
-                this.userNameNotEmail = true;
+                this.signupForm.setErrors({
+                    userNameNotEmail: true
+                });
                 break;
             case SignupError.EMAILEXISTS:
-                this.emailExists = true;
+                this.signupForm.setErrors({
+                    emailExists: true
+                });
                 break;
         }
     }

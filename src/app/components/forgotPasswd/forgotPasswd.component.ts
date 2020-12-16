@@ -14,8 +14,6 @@ export class ForgotPasswdComponent implements OnInit {
     public confirmMsg: string = "";
     public submitted: boolean = false;
 
-    public emailNonExistent: boolean = false;
-
     @Output() modeChanged = new EventEmitter<string>();
 
     constructor(
@@ -48,7 +46,6 @@ export class ForgotPasswdComponent implements OnInit {
         this.submitted = true;
         this.errorMsg = '';
         this.confirmMsg = '';
-        this.emailNonExistent = false;
 
         this.authService.postForgotPasswd(forgotPwData).subscribe(data => {
             this.handleResponse(data);
@@ -83,7 +80,9 @@ export class ForgotPasswdComponent implements OnInit {
     private handleError(err: ForgotPasswdError): void {
         switch (err) {
             case ForgotPasswdError.INPUT:
-                this.errorMsg = 'E-mail address is invalid.';
+                this.passwdForm.setErrors({
+                    invalidEmail: true
+                });
                 break;
             case ForgotPasswdError.TOKEN:
                 this.errorMsg = 'Invalid token. Please try again.';
@@ -92,7 +91,9 @@ export class ForgotPasswdComponent implements OnInit {
                 this.errorMsg = 'The server is down or encountered an unexpected error. Please try again later.';
                 break;
             case ForgotPasswdError.USER:
-                this.emailNonExistent = true;
+                this.passwdForm.setErrors({
+                    emailNonExistent: true
+                });
                 break;
         }
     }

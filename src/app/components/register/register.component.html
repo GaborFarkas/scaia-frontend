@@ -20,11 +20,11 @@
         class="form-validation"
       >Username must be shorter than {{maxUserLength + 1}} characters.</div>
       <div
-        *ngIf="submitted && userNameExists"
+        *ngIf="submitted && signupForm.errors && signupForm.errors.userNameExists"
         class="form-validation"
       >The selected username already exists.</div>
       <div
-        *ngIf="submitted && userNameNotEmail"
+        *ngIf="submitted && signupForm.errors && signupForm.errors.userNameNotEmail"
         class="form-validation"
       >Username must not be an email address.</div>
     </div>
@@ -39,11 +39,11 @@
         class="form-validation"
       >Email address is required.</div>
       <div
-        *ngIf="submitted && invalidEmail"
+        *ngIf="submitted && signupForm.errors && signupForm.errors.invalidEmail"
         class="form-validation"
       >Invalid email address format.</div>
       <div
-        *ngIf="submitted && emailExists"
+        *ngIf="submitted && signupForm.errors && signupForm.errors.emailExists"
         class="form-validation"
       >There is aleady a registered user with the provided e-mail address.</div>
     </div>
@@ -93,9 +93,9 @@
       <div
         *ngIf="submitted && signupForm.controls.confirm.errors && signupForm.controls.confirm.errors.required"
         class="form-validation"
-      >Confirmation of password is required.</div>
+      >Password confirmation is required.</div>
       <div
-        *ngIf="submitted && signupForm.controls.confirm.errors.match"
+        *ngIf="submitted && signupForm.errors && signupForm.errors.passwordMustMatch"
         class="form-validation"
       >Passwords must match.</div>
     </div>

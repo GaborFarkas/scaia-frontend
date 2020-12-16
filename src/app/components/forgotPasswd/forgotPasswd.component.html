@@ -13,9 +13,13 @@
             class="form-validation"
         >Email address is required.</div>
         <div
-            *ngIf="submitted && emailNonExistent"
+            *ngIf="submitted && passwdForm.errors && passwdForm.errors.emailNonExistent"
             class="form-validation"
         >There is no registered user with the provided e-mail address.</div>
+        <div
+            *ngIf="submitted && passwdForm.errors && passwdForm.errors.invalidEmail"
+            class="form-validation"
+        >E-mail address is invalid.</div>
       </div>
   
       <input type="hidden" formControlName="csrf">
