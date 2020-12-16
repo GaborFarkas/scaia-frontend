@@ -1,0 +1,40 @@
+<div class="login-box">
+    <h1 class="h1">Reset password</h1>
+    <p *ngIf="errorMsg" class="form-validation generic-error">{{errorMsg}}</p>
+    <form [formGroup]="passwdForm" (ngSubmit)="onSubmit(passwdForm.value)">
+        <div class="textbox">
+            <div class="form-input">
+              <i class="fa fa-unlock icon" aria-hidden="true"></i>
+              <input type="password" placeholder="Password" formControlName="password">
+            </div>
+            <div
+              *ngIf="submitted && passwdForm.controls.password.errors && passwdForm.controls.password.errors.required"
+              class="form-validation"
+            >Password is required.</div>
+            <div
+              *ngIf="submitted && passwdForm.controls.password.errors && passwdForm.controls.password.errors.minlength"
+              class="form-validation"
+            >Password must be at least {{minPwLength}} characters long.</div>
+          </div>
+      
+          <div class="textbox">
+            <div class="form-input">
+              <i class="fa fa-unlock icon" aria-hidden="true"></i>
+              <input type="password" placeholder="Confirm password" formControlName="confirm">
+            </div>
+            <div
+              *ngIf="submitted && passwdForm.controls.confirm.errors && passwdForm.controls.confirm.errors.required"
+              class="form-validation"
+            >Password confirmation is required.</div>
+            <div
+              *ngIf="submitted && passwdForm.errors && passwdForm.errors.passwordMustMatch"
+              class="form-validation"
+            >Passwords must match.</div>
+          </div>
+  
+      <input type="hidden" formControlName="csrf">
+  
+      <input class="btn login-btn" type="submit" value="Reset password">
+    </form>
+    <input *ngIf="!mandatory" class="btn login-btn" type="button" value="Sign in" (click)="changeMode()">
+</div>

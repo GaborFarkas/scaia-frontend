@@ -17,6 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MapComponent } from './components/map';
 import { UserSettingsComponent } from './components/userSettings';
 import { ForgotPasswdComponent } from './components/forgotPasswd';
+import { ResetPasswdComponent } from './components/resetPasswd';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { ForgotPasswdComponent } from './components/forgotPasswd';
     LoginComponent,
     RegisterComponent,
     ForgotPasswdComponent,
+    ResetPasswdComponent,
     AddNewJobComponent,
     JobQueryComponent,
     DataDownloadComponent,
