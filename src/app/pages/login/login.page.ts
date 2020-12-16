@@ -37,7 +37,7 @@ export class LoginPage {
     public get errorMsg(): string {
         switch (this.error) {
             case LoginError.BANNED:
-                return 'Your account has been suspended indefinitely. For further information, please contact us at xx@yy.zz';
+                return 'Your account has been suspended indefinitely. For further information, please contact us at gfarkas@gamma.ttk.pte.hu';
             case LoginError.VERIFY:
                 return 'Please verify your email address before using the application.';
             default:
