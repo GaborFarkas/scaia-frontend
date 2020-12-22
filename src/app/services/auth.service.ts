@@ -9,10 +9,10 @@ import { ResetPasswdRequest, ResetPasswdResponse } from '../models/resetPasswd.m
 
 @Injectable({ providedIn: 'root' })
 export default class AuthService {
-    private baseUrl: string = '/api';
+    //private baseUrl: string = '/api';
 
     // Used for development
-    //private baseUrl: string = 'http://localhost/dalmand_backend/api';
+    private baseUrl: string = 'http://localhost/dalmand_backend/api';
     //private baseUrl: string = 'http://localhost/php_backend/api';
 
     constructor(private http: HttpClient) { }
