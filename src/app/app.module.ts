@@ -18,6 +18,7 @@ import { MapComponent } from './components/map';
 import { UserSettingsComponent } from './components/userSettings';
 import { ForgotPasswdComponent } from './components/forgotPasswd';
 import { ResetPasswdComponent } from './components/resetPasswd';
+import { NavbarComponent } from './components/navbar';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { ResetPasswdComponent } from './components/resetPasswd';
     ContactComponent,
     HelpComponent,
     TutorialComponent,
+    NavbarComponent,
     MapComponent,
     UserSettingsComponent
   ],

@@ -49,3 +49,7 @@
 .logo-hz {
   height: 30px;
 }
+
+ng-component {
+  height: 100%;
+}
