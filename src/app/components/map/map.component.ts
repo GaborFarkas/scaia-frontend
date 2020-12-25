@@ -5,6 +5,9 @@ import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
 import ZoomToExtent from 'ol/control/ZoomToExtent';
 import { defaults as defaultControls } from 'ol/control';
+import MapService from 'src/app/services/map.service';
+import AlertService from 'src/app/services/alert.service';
+import { AlertType } from 'src/app/models/alert.model';
 
 @Component({
     selector: 'app-map',
@@ -13,6 +16,10 @@ import { defaults as defaultControls } from 'ol/control';
 })
 export class MapComponent implements AfterViewInit {
     private map: Map;
+
+    constructor(
+      private mapService: MapService,
+      private alertService: AlertService) {}
 
     ngAfterViewInit(): void {
         this.map = new Map({
@@ -36,6 +43,15 @@ export class MapComponent implements AfterViewInit {
                 ]
               })
             ])*/
+        });
+
+        this.mapService.getMap().subscribe(data => {
+
+        },
+        err => {
+          if (err.status === 403) {
+            this.alertService.alert(AlertType.ERROR, 'You are not eligiable to access Dalmand Zrt. proprietary data. Sorry.');
+          }
         });
     }
 }
