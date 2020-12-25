@@ -8,6 +8,7 @@ import { defaults as defaultControls } from 'ol/control';
 import MapService from 'src/app/services/map.service';
 import AlertService from 'src/app/services/alert.service';
 import { AlertType } from 'src/app/models/alert.model';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-map',
@@ -19,7 +20,8 @@ export class MapComponent implements AfterViewInit {
 
     constructor(
       private mapService: MapService,
-      private alertService: AlertService) {}
+      private alertService: AlertService,
+      private router: Router) {}
 
     ngAfterViewInit(): void {
         this.map = new Map({
@@ -49,7 +51,11 @@ export class MapComponent implements AfterViewInit {
 
         },
         err => {
-          if (err.status === 403) {
+          // If we get an Unauthorized response, the user is not allowed to use the app. Go back to the login page.
+          if (err.status === 401) {
+            this.router.navigate(["login"]);
+          // Else if the response is Forbidden, the user is not allowed to see the data.
+          } else if (err.status === 403) {
             this.alertService.alert(AlertType.ERROR, 'You are not eligiable to access Dalmand Zrt. proprietary data. Sorry.');
           }
         });
