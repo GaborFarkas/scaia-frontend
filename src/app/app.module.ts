@@ -19,6 +19,7 @@ import { UserSettingsComponent } from './components/userSettings';
 import { ForgotPasswdComponent } from './components/forgotPasswd';
 import { ResetPasswdComponent } from './components/resetPasswd';
 import { NavbarComponent } from './components/navbar';
+import { AlertComponent } from './components/alert';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { NavbarComponent } from './components/navbar';
     TutorialComponent,
     NavbarComponent,
     MapComponent,
-    UserSettingsComponent
+    UserSettingsComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
