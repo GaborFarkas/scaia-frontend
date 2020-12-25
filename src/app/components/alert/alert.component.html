@@ -1,4 +1,4 @@
-<div *ngIf="alerts && alerts.length" [class]="'alert alert-dismissible fade show ' + alerts[0].type" role="alert">
+<div *ngIf="alerts && alerts.length" [class]="'alert alert-dismissible fade show ' + alerts[0].type" role="alert" [style]="{top: alerts[0].top + 'px'}">
     {{alerts[0].message}}
     <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="destroyAlert()">
       <span aria-hidden="true">&times;</span>

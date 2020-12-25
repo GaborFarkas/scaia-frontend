@@ -1,8 +1,9 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertType } from 'src/app/models/alert.model';
 import { Product } from 'src/app/models/product.model';
 import { HomePage } from 'src/app/pages/home';
+import AlertService from 'src/app/services/alert.service';
 import ConfigService from 'src/app/services/config.service';
 
 @Component({
@@ -17,6 +18,7 @@ export class AddNewJobComponent implements OnInit {
 
   constructor(
     private configService: ConfigService,
+    private alertService: AlertService,
     private router: Router) {}
 
   ngOnInit(): void {
@@ -33,6 +35,8 @@ export class AddNewJobComponent implements OnInit {
       // If we get an Unauthorized response, the user is not allowed to use the app. Go back to the login page.
       if (ex.status === 401) {
         this.router.navigate(["login"]);
+      } else {
+        this.alertService.alert(AlertType.ERROR, "An unexpected error happened, please try again later.");
       }
     }
   }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AlertComponent } from '../components/alert';
+import { AlertType } from '../models/alert.model';
 
 @Injectable({ providedIn: 'root' })
 export default class AlertService {
@@ -9,10 +10,11 @@ export default class AlertService {
         this.alertComp = alert;
     }
 
-    public alert(type: string, message: string) {
+    public alert(type: AlertType, message: string, top?: number) {
         this.alertComp.alerts = [{
             type: type,
-            message: message
+            message: message,
+            top: top || 61
         }];
     }
 }

@@ -11,6 +11,5 @@ export class AlertComponent {
 
     public destroyAlert(): void {
         this.alerts = [];
-        console.log(this.alerts);
     }
 }
