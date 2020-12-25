@@ -19,7 +19,7 @@ export default class ConfigService {
      * Returns the product config in a promise
      */
     public async getProductsAsync(): Promise<Product[]> {
-        const productUrl = this.baseUrl + '/get_config?config=products.json';
+        const productUrl = this.baseUrl + '/get_config?config=product.json';
 
         if (!this.cache['products']) {
             this.cache['products'] = await this.http.get<Product[]>(productUrl).toPromise();
