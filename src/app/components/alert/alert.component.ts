@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Alert } from 'src/app/models/alert.model';
 
 @Component({
     selector: 'app-alert',
@@ -6,5 +7,5 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./alert.component.css']
 })
 export class AlertComponent {
-
+    public alerts: Alert[];
 }

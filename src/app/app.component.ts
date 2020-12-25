@@ -1,4 +1,6 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AlertComponent } from './components/alert';
+import AlertService from './services/alert.service';
 
 
 //this is the component, containing the metadata (selector) and the template (html),and the style
@@ -10,8 +12,15 @@ import { Component, ViewEncapsulation } from '@angular/core';
 })
 
 //this is the "class" component, responsible for the logic
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   public logoExpanded = false;
+  @ViewChild('alertComp') alertComp: AlertComponent;
+
+  constructor(private alertService: AlertService) {}
+
+  ngAfterViewInit(): void {
+    this.alertService.register(this.alertComp);
+  }
 
   public toggleLogo() {
     this.logoExpanded = !this.logoExpanded;
