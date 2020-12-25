@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import AuthService from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { UserData } from 'src/app/models/userdata.model';
+import ConfigService from 'src/app/services/config.service';
 
 @Component({
   templateUrl: 'home.page.html' ,
@@ -17,6 +18,7 @@ export class HomePage implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private configService: ConfigService,
     private router: Router) {}
 
   ngOnInit() {
@@ -26,6 +28,9 @@ export class HomePage implements OnInit {
         this.router.navigate(["login"]);
       } else {
         this.userData = data.userData;
+
+        // Request the product config at this point so it will be cached when used.
+        this.configService.getProductsAsync();
       }
     },
     err => {
