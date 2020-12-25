@@ -6,14 +6,11 @@ import { modelToFormData } from '../utils/form.util';
 import { SignupResponse, SingupRequest } from '../models/signup.model';
 import { ForgotPasswdRequest, ForgotPasswdResponse } from '../models/forgotpasswd.model';
 import { ResetPasswdRequest, ResetPasswdResponse } from '../models/resetPasswd.model';
+import { GlobalConstants } from 'src/global';
 
 @Injectable({ providedIn: 'root' })
 export default class AuthService {
-    private baseUrl: string = '/api';
-
-    // Used for development
-    //private baseUrl: string = 'http://localhost/dalmand_backend/api';
-    //private baseUrl: string = 'http://localhost/php_backend/api';
+    private baseUrl: string = GlobalConstants.baseUrl;
 
     constructor(private http: HttpClient) { }
 

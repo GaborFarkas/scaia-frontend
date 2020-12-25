@@ -1,17 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { GlobalConstants } from 'src/global';
 import { Product } from '../models/product.model';
 
 @Injectable({ providedIn: 'root' })
 export default class ConfigService {
     private cache: object = {};
-    private baseUrl: string = '/api';
-
-    // Used for development
-    //private baseUrl: string = 'http://localhost/dalmand_backend/api';
-    //private baseUrl: string = 'http://localhost/php_backend/api';
+    private baseUrl: string = GlobalConstants.baseUrl;
 
     constructor(private http: HttpClient) { }
 
