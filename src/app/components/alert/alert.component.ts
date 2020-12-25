@@ -8,4 +8,9 @@ import { Alert } from 'src/app/models/alert.model';
 })
 export class AlertComponent {
     public alerts: Alert[];
+
+    public destroyAlert(): void {
+        this.alerts = [];
+        console.log(this.alerts);
+    }
 }
