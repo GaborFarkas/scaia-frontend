@@ -9,6 +9,9 @@ import MapService from 'src/app/services/map.service';
 import AlertService from 'src/app/services/alert.service';
 import { AlertType } from 'src/app/models/alert.model';
 import { Router } from '@angular/router';
+import VectorLayer from 'ol/layer/Vector';
+import VectorSource from 'ol/source/Vector';
+import GeoJSON from 'ol/format/GeoJSON';
 
 @Component({
     selector: 'app-map',
@@ -48,7 +51,12 @@ export class MapComponent implements AfterViewInit {
         });
 
         this.mapService.getMap().subscribe(data => {
-
+          console.log(data);
+          this.map.addLayer(new VectorLayer({
+            source: new VectorSource({
+              features: new GeoJSON().readFeatures(data)
+            })
+          }))
         },
         err => {
           // If we get an Unauthorized response, the user is not allowed to use the app. Go back to the login page.
