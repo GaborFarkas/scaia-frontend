@@ -56,7 +56,7 @@ export class MapComponent implements AfterViewInit {
             this.router.navigate(["login"]);
           // Else if the response is Forbidden, the user is not allowed to see the data.
           } else if (err.status === 403) {
-            this.alertService.alert(AlertType.ERROR, 'You are not eligiable to access Dalmand Zrt. proprietary data. Sorry.');
+            this.alertService.alert(AlertType.ERROR, 'You are not eligible to access Dalmand Zrt. proprietary data. Sorry.');
           }
         });
     }
