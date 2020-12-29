@@ -1,5 +1,5 @@
 <div class="home-body">
-  <app-navbar></app-navbar>
+  <app-navbar (navMode)="changeMode($event)" [userData]="userData" (logOut)="logout()"></app-navbar>
   <app-map></app-map>
 
   <div class="main_container">

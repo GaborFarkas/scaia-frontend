@@ -1,8 +1,9 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, Input } from '@angular/core';
 import AuthService from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { UserData } from 'src/app/models/userdata.model';
 import ConfigService from 'src/app/services/config.service';
+import { NavbarComponent } from 'src/app/components/navbar';
 
 @Component({
   templateUrl: 'home.page.html' ,
@@ -10,11 +11,8 @@ import ConfigService from 'src/app/services/config.service';
   encapsulation: ViewEncapsulation.None
 })
 export class HomePage implements OnInit {
-  private userData: UserData;
-
-  public get userName(): string {
-    return this.userData ? this.userData.fname + " " + this.userData.lname : '';
-  }
+  public userData: UserData;
+  public mode: string = "";
 
   constructor(
     private authService: AuthService,
@@ -38,8 +36,6 @@ export class HomePage implements OnInit {
     });
   }
 
-  public mode: string = "";
-
   public changeMode(newMode: string ) {
     if(this.mode === newMode) {
       this.mode = "";
@@ -47,12 +43,6 @@ export class HomePage implements OnInit {
       this.mode = newMode;
     }
   }
-
-  public getUserName(userName: string){
-    userName = this.userData.fname + ' ' +this.userData.lname;
-    return userName;
-  }
-
 
   /**
    * Logs out the current user from the application and redirects to the login page.
