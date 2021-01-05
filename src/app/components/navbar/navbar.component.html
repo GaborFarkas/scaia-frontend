@@ -6,27 +6,27 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="#" (click)="navChangeMode('addNewJob')">Add new job</a>
+          <a class="nav-link" (click)="navChangeMode('addNewJob')">Add new job</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" (click)="navChangeMode('jobQuery')">Job query</a>
+          <a class="nav-link" (click)="navChangeMode('jobQuery')">Job query</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" (click)="navChangeMode('dataDownload')">Data download</a>
+          <a class="nav-link" (click)="navChangeMode('dataDownload')">Data download</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" (click)="navChangeMode('help')">Help</a>
+          <a class="nav-link" (click)="navChangeMode('help')">Help</a>
         </li>
       </ul>
       <ul class="navbar-nav mr-5">
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {{userName}}
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Admin</a>
-            <a class="dropdown-item" href="#" (click)="navChangeMode('userSettings')">User settings</a>
-            <a class="dropdown-item" href="#" (click)="onLogOut()">Log out</a>
+            <a *ngIf="userData && userData.admin" href="admin/users/admin" class="dropdown-item">Administration</a>
+            <a class="dropdown-item" (click)="navChangeMode('userSettings')">User settings</a>
+            <a class="dropdown-item" (click)="onLogOut()">Log out</a>
           </div>
         </li>
       </ul>
