@@ -12,6 +12,9 @@ import { Router } from '@angular/router';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import GeoJSON from 'ol/format/GeoJSON';
+import Style from 'ol/style/Style';
+import Stroke from 'ol/style/Stroke';
+import Fill from 'ol/style/Fill';
 
 @Component({
     selector: 'app-map',
@@ -26,6 +29,7 @@ export class MapComponent implements AfterViewInit {
       private alertService: AlertService,
       private router: Router) {}
 
+      
     ngAfterViewInit(): void {
         this.map = new Map({
             target: 'olMap',
@@ -37,25 +41,61 @@ export class MapComponent implements AfterViewInit {
               })
             ],
             view: new View({
-              center: [2213079.7791264898, 5939220.284081122],
-              zoom: 8
+              center: [2029079.7791264898, 5855220.284081122],
+              zoom: 12
             }),
-            controls: []/*defaultControls().extend([
-              new ZoomToExtent({
-                extent: [
-                  2053079.7791264898, 5719220.284081122,
-                  2383079.7791264898, 6209220.284081122
-                ]
-              })
-            ])*/
+            controls: []
         });
+        //defining style for different fields
+        var style127 = new Style({
+          stroke: new Stroke({
+            color: 'green',
+            width: 2
+          })
+        })
+
+        var style129 = new Style({
+          stroke: new Stroke({
+            color: 'blue',
+            width: 2
+          })
+        })
+        var style111 = new Style({
+          stroke: new Stroke({
+            color: 'red',
+            width: 2
+          })
+        })
+        var styleDefault = new Style({
+          stroke: new Stroke({
+            color: 'black',
+            width: 2
+          })
+        })
+
+        function styleFunction(feature) {
+          // get the C_cropID from the feature properties
+          var C_cropID = feature.get('C_cropID');
+          //log out the C_cropID values to terminal
+          console.log(C_cropID);
+          
+          if(C_cropID == 127)
+            return [style127]
+          else if(C_cropID == 129)
+            return [style129]
+          else if(C_cropID == 111)
+            return [style111]
+          else
+            return [styleDefault]
+          }
 
         this.mapService.getMap().subscribe(data => {
           console.log(data);
           this.map.addLayer(new VectorLayer({
             source: new VectorSource({
               features: new GeoJSON().readFeatures(data)
-            })
+            }),
+            style: styleFunction
           }))
         },
         err => {
@@ -67,5 +107,6 @@ export class MapComponent implements AfterViewInit {
             this.alertService.alert(AlertType.ERROR, 'You are not eligible to access Dalmand Zrt. proprietary data. Sorry.');
           }
         });
+
     }
 }
