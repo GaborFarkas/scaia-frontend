@@ -1,10 +1,8 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, Input, SimpleChanges } from '@angular/core';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
-import ZoomToExtent from 'ol/control/ZoomToExtent';
-import { defaults as defaultControls } from 'ol/control';
 import MapService from 'src/app/services/map.service';
 import AlertService from 'src/app/services/alert.service';
 import { AlertType } from 'src/app/models/alert.model';
@@ -14,7 +12,6 @@ import VectorSource from 'ol/source/Vector';
 import GeoJSON from 'ol/format/GeoJSON';
 import Style from 'ol/style/Style';
 import Stroke from 'ol/style/Stroke';
-import Fill from 'ol/style/Fill';
 
 @Component({
     selector: 'app-map',
@@ -24,6 +21,8 @@ import Fill from 'ol/style/Fill';
 export class MapComponent implements AfterViewInit {
     private map: Map;
 
+    @Input() canLoadData: boolean;
+
     constructor(
       private mapService: MapService,
       private alertService: AlertService,
@@ -31,66 +30,78 @@ export class MapComponent implements AfterViewInit {
 
       
     ngAfterViewInit(): void {
-        this.map = new Map({
-            target: 'olMap',
-            layers: [
-              new TileLayer({
-                source: new XYZ({
-                  url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-                })
+      this.map = new Map({
+          target: 'olMap',
+          layers: [
+            new TileLayer({
+              source: new XYZ({
+                url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
               })
-            ],
-            view: new View({
-              center: [2029079.7791264898, 5855220.284081122],
-              zoom: 12
-            }),
-            controls: []
-        });
-        //defining style for different fields
-        var style127 = new Style({
-          stroke: new Stroke({
-            color: 'green',
-            width: 2
-          })
-        })
+            })
+          ],
+          view: new View({
+            center: [2029079.7791264898, 5855220.284081122],
+            zoom: 12
+          }),
+          controls: []
+      });
+    }
 
-        var style129 = new Style({
-          stroke: new Stroke({
-            color: 'blue',
-            width: 2
-          })
-        })
-        var style111 = new Style({
-          stroke: new Stroke({
-            color: 'red',
-            width: 2
-          })
-        })
-        var styleDefault = new Style({
-          stroke: new Stroke({
-            color: 'black',
-            width: 2
-          })
-        })
-
-        function styleFunction(feature) {
-          // get the C_cropID from the feature properties
-          var C_cropID = feature.get('C_cropID');
-          //log out the C_cropID values to terminal
-          console.log(C_cropID);
-          
-          if(C_cropID == 127)
-            return [style127]
-          else if(C_cropID == 129)
-            return [style129]
-          else if(C_cropID == 111)
-            return [style111]
-          else
-            return [styleDefault]
-          }
-
+    /**
+     * Load the data when a logged-in user is detected to avoid false unauthorized errors.
+     * @param changes
+     */
+    public ngOnChanges(changes: SimpleChanges): void {
+      if (this.canLoadData) {
         this.mapService.getMap().subscribe(data => {
-          console.log(data);
+          //111 - búza,
+          //113 - árpa
+          //115 - repce
+          //129 - takarmány kukorica
+  
+          //defining style for different fields
+          var style127 = new Style({
+            stroke: new Stroke({
+              color: 'green',
+              width: 2
+            })
+          })
+  
+          var style129 = new Style({
+            stroke: new Stroke({
+              color: 'blue',
+              width: 2
+            })
+          })
+          var style111 = new Style({
+            stroke: new Stroke({
+              color: 'red',
+              width: 2
+            })
+          })
+          var styleDefault = new Style({
+            stroke: new Stroke({
+              color: 'black',
+              width: 2
+            })
+          })
+  
+          function styleFunction(feature) {
+            // get the C_cropID from the feature properties
+            var C_cropID = feature.get('C_cropID');
+            //log out the C_cropID values to terminal
+            console.log(C_cropID);
+            
+            if(C_cropID == 127)
+              return [style127]
+            else if(C_cropID == 129)
+              return [style129]
+            else if(C_cropID == 111)
+              return [style111]
+            else
+              return [styleDefault]
+            }
+  
           this.map.addLayer(new VectorLayer({
             source: new VectorSource({
               features: new GeoJSON().readFeatures(data)
@@ -107,6 +118,6 @@ export class MapComponent implements AfterViewInit {
             this.alertService.alert(AlertType.ERROR, 'You are not eligible to access proprietary data. Sorry.');
           }
         });
-
+      }
     }
 }

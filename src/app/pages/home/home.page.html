@@ -1,6 +1,6 @@
 <div class="home-body">
   <app-navbar (navMode)="changeMode($event)" [userData]="userData" (logOut)="logout()"></app-navbar>
-  <app-map></app-map>
+  <app-map [canLoadData]="!!userData"></app-map>
 
   <div class="main_container">
     <!--This is the main container, including logos, OL Map, controllers, and the main field-->
