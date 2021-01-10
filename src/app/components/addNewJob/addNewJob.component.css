@@ -12,13 +12,37 @@
   font-weight: 800;
 }
 
-.btn-div{
-  display: flex;
+.btn-container {
   height: 100%;
   width: 100%;
-  align-items: center;
-  justify-content: center;
-  align-self: center;
+  display: flex;
+  overflow-y: auto;
+}
+
+.btn-grid{
+  display: grid;
+  width: 100%;
+  grid-auto-flow: row;
+  row-gap: 4em;
+  grid-auto-rows: 7.5em;
+  padding: 0 2em;
+}
+
+@media (min-width: 768px) {
+  .btn-grid {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 2em;
+  }
+
+  .btn-container {
+    align-items: center;
+  }
+}
+
+@media (min-width: 1200px) {
+  .btn-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 }
 
 .btn-text{
@@ -27,9 +51,8 @@
 }
 
 .addNewJob-btn{
-  width: 280px;
-  height: 120px;
-  margin: 20px;
+  width: 100%;
+  height: 100%;
   font-size: 1.5em;
   display: flex;
   align-items: center;
@@ -47,7 +70,7 @@
   font-size: 2em;
   margin: 3px;
   transition-duration: 400ms;
-  margin-right: 30px;
+  padding-right: 30px;
   color: rgba(0,0,0,1);
 }
 

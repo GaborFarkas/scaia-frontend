@@ -6,12 +6,14 @@
     </div>
   </div>
   
-  <div *ngIf="activeNode.items" class="btn-div">
-    <div *ngFor="let item of activeNode.items" class="btn1-div">
-      <button class="addNewJob-btn btn1" (click)="navigateTo(item)">
-        <span class="btn-text">{{item.name}}</span>
-        <span class="icon"><i class="fas fa-arrow-circle-right"></i></span>
-      </button>
+  <div *ngIf="activeNode && activeNode.items" class="btn-container">
+    <div class="btn-grid">
+      <div *ngFor="let item of activeNode.items" class="btn1-div">
+        <button class="addNewJob-btn btn1" (click)="navigateTo(item)">
+          <span class="btn-text">{{item.name}}</span>
+          <span class="icon"><i class="fas fa-arrow-circle-right"></i></span>
+        </button>
+      </div>
     </div>
   </div>
 </div>
