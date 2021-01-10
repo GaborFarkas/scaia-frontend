@@ -1,14 +1,14 @@
 <div class="addNewJob-container">
-  <div *ngIf="activeNode">
+  <div *ngIf="activeNode" class="addNewJob-header">
     <span>{{activeNode.name}}</span>
     <div *ngIf="activeNode.prev" class="navigate-back" (click)="goBack()">
-      <span class="icon"><i class="fas fa-arrow-circle-left"></i>Back</span>
+      <span><i class="fas fa-arrow-circle-left"></i>Back</span>
     </div>
   </div>
   
   <div *ngIf="activeNode.items" class="btn-div">
     <div *ngFor="let item of activeNode.items" class="btn1-div">
-      <button class="addNewJob-btn btn1" (click)="onBtnClick(item)">
+      <button class="addNewJob-btn btn1" (click)="navigateTo(item)">
         <span class="btn-text">{{item.name}}</span>
         <span class="icon"><i class="fas fa-arrow-circle-right"></i></span>
       </button>

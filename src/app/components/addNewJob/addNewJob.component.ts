@@ -24,10 +24,17 @@ export class AddNewJobComponent implements OnInit {
     this.getConfig();
   }
 
-  public onBtnClick(item: Product) {
+  /**
+   * Listener called when the user clicks on a GUI category button.
+   * @param item 
+   */
+  public navigateTo(item: Product) {
     this.activeNode = item;
   }
 
+  /**
+   * Listener called when the user clicks on the Back button.
+   */
   public goBack() {
     this.activeNode = this.activeNode.prev;
   }
