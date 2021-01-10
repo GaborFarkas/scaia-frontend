@@ -4,7 +4,8 @@ export interface Product {
     icon: string,
     items?: Product[],
     id?: string,
-    inputs?: ProductInput[]
+    inputs?: ProductInput[],
+    prev?: Product
 }
 
 export interface ProductInput {

@@ -13,8 +13,8 @@ import ConfigService from 'src/app/services/config.service';
 })
 
 export class AddNewJobComponent implements OnInit {
-  content_title1 = "Add new job";
-  public config: Product[];
+  private config: Product;
+  public activeList: Product;
 
   constructor(
     private configService: ConfigService,
@@ -31,6 +31,7 @@ export class AddNewJobComponent implements OnInit {
   private async getConfig() {
     try {
       this.config = await this.configService.getProductsAsync();
+      this.activeList = this.config;
     } catch (ex) {
       // If we get an Unauthorized response, the user is not allowed to use the app. Go back to the login page.
       if (ex.status === 401) {
