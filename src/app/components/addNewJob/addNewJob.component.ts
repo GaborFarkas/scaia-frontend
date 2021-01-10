@@ -13,8 +13,7 @@ import ConfigService from 'src/app/services/config.service';
 })
 
 export class AddNewJobComponent implements OnInit {
-  private config: Product;
-  public activeList: Product;
+  public activeNode: Product;
 
   constructor(
     private configService: ConfigService,
@@ -25,13 +24,20 @@ export class AddNewJobComponent implements OnInit {
     this.getConfig();
   }
 
+  public onBtnClick(item: Product) {
+    this.activeNode = item;
+  }
+
+  public goBack() {
+    this.activeNode = this.activeNode.prev;
+  }
+
   /**
    * Saves the product configuration to generate the buttons from.
    */
   private async getConfig() {
     try {
-      this.config = await this.configService.getProductsAsync();
-      this.activeList = this.config;
+      this.activeNode = await this.configService.getProductsAsync();
     } catch (ex) {
       // If we get an Unauthorized response, the user is not allowed to use the app. Go back to the login page.
       if (ex.status === 401) {

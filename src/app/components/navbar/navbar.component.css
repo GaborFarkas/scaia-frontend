@@ -1,3 +1,7 @@
 .navbar {
     user-select: none;
 }
+
+.navbar a {
+    cursor: pointer;
+}

@@ -44,11 +44,14 @@
   margin-right: auto;
   height: calc(100% - 61px);
   width: 100%;
-  background-image: url("/src/assets/images/backround.jpg");
   display: flex;
   flex-direction: column;
   margin-top: 61px;
   pointer-events: none;
+}
+
+.main_container div {
+  pointer-events: all;
 }
 
 .main_field{
