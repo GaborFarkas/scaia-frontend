@@ -9,10 +9,14 @@ export default class MapService {
     private baseUrl: string = GlobalConstants.baseUrl;
 
     constructor(private http: HttpClient) { }
-    
-    getMap(): Observable<GeoJSON> {
-        const mapUrl: string = this.baseUrl + '/get_map';
+
+    getVectorLayer(id?: string): Observable<GeoJSON> {
+        let mapUrl: string = this.baseUrl + '/get_geojson';
+        if (id) {
+            mapUrl += '?id=' + id;
+        }
+
         return this.http.get<GeoJSON>(mapUrl);
     }
-    
+
 }

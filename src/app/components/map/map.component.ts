@@ -12,11 +12,17 @@ import VectorSource from 'ol/source/Vector';
 import GeoJSON from 'ol/format/GeoJSON';
 import Style from 'ol/style/Style';
 import Stroke from 'ol/style/Stroke';
+import ConfigService from 'src/app/services/config.service';
+import { config } from 'process';
+import BaseLayer from 'ol/layer/Base';
+import { ProductLayer, ProductLayerType } from 'src/app/models/productlayer.model';
+import { ProductLayerStyleCategory, ProductLayerStyleType } from 'src/app/models/productlayerstyle.model';
+import Fill from 'ol/style/Fill';
 
 @Component({
     selector: 'app-map',
     templateUrl: 'map.component.html',
-    styleUrls: [ 'map.component.css' ]
+    styleUrls: ['map.component.css']
 })
 export class MapComponent implements AfterViewInit {
     private map: Map;
@@ -24,27 +30,27 @@ export class MapComponent implements AfterViewInit {
     @Input() canLoadData: boolean;
 
     constructor(
-      private mapService: MapService,
-      private alertService: AlertService,
-      private router: Router) {}
+        private mapService: MapService,
+        private alertService: AlertService,
+        private configService: ConfigService,
+        private router: Router) { }
 
-      
     ngAfterViewInit(): void {
-      this.map = new Map({
-          target: 'olMap',
-          layers: [
-            new TileLayer({
-              source: new XYZ({
-                url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-              })
-            })
-          ],
-          view: new View({
-            center: [2029079.7791264898, 5855220.284081122],
-            zoom: 12
-          }),
-          controls: []
-      });
+        this.map = new Map({
+            target: 'olMap',
+            layers: [
+                new TileLayer({
+                    source: new XYZ({
+                        url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+                    })
+                })
+            ],
+            view: new View({
+                center: [2029079.7791264898, 5855220.284081122],
+                zoom: 12
+            }),
+            controls: []
+        });
     }
 
     /**
@@ -52,72 +58,126 @@ export class MapComponent implements AfterViewInit {
      * @param changes
      */
     public ngOnChanges(changes: SimpleChanges): void {
-      if (this.canLoadData) {
-        this.mapService.getMap().subscribe(data => {
-          //111 - búza,
-          //113 - árpa
-          //115 - repce
-          //129 - takarmány kukorica
-  
-          //defining style for different fields
-          var style127 = new Style({
-            stroke: new Stroke({
-              color: 'green',
-              width: 2
-            })
-          })
-  
-          var style129 = new Style({
-            stroke: new Stroke({
-              color: 'blue',
-              width: 2
-            })
-          })
-          var style111 = new Style({
-            stroke: new Stroke({
-              color: 'red',
-              width: 2
-            })
-          })
-          var styleDefault = new Style({
-            stroke: new Stroke({
-              color: 'black',
-              width: 2
-            })
-          })
-  
-          function styleFunction(feature) {
-            // get the C_cropID from the feature properties
-            var C_cropID = feature.get('C_cropID');
-            //log out the C_cropID values to terminal
-            console.log(C_cropID);
-            
-            if(C_cropID == 127)
-              return [style127]
-            else if(C_cropID == 129)
-              return [style129]
-            else if(C_cropID == 111)
-              return [style111]
-            else
-              return [styleDefault]
+        if (this.canLoadData) {
+            this.addLayer();
+        }
+    }
+
+    /**
+     * Adds a product map (set of layers) to the map.
+     * @param id Id of the product map. If empty, the base vector layer is loaded.
+     */
+    public async addMap(mapId: string): Promise<void> {
+        const mapConf = await this.configService.getMapsAsync();
+
+        if (mapConf[mapId]) {
+            // This is a static map.
+            const conf = mapConf[mapId];
+            for (let i = 0; i < conf.layers.length; ++i) {
+                this.addLayer(conf.layers[i], conf.layers[i].type);
             }
-  
-          this.map.addLayer(new VectorLayer({
-            source: new VectorSource({
-              features: new GeoJSON().readFeatures(data)
-            }),
-            style: styleFunction
-          }))
+        } else {
+            // This is a dynamic map. The layer IDs must contain the generation date.
+        }
+    }
+
+    /**
+     * Adds a single layer to the map. If the layer is already present, sets its visibility to true.
+     * @param layerId
+     * @param type
+     */
+    public async addLayer(layer?: ProductLayer, type?: ProductLayerType): Promise<void> {
+        const lyr = this.getLayer(layer ? layer.id : 'baselayer');
+
+        if (lyr) {
+            lyr.setVisible(true);
+        } else if (!type || type === ProductLayerType.VECTOR) {
+            await this.addVectorLayer(layer);
+        } else {
+            this.addRasterLayer(layer);
+        }
+    }
+
+    /**
+     * Adds a new vector layer (GeoJSON) to the map.
+     * @param layer Layer description
+     */
+    private async addVectorLayer(layer?: ProductLayer): Promise<void> {
+        const style = layer ? (await this.configService.getStylesAsync())[layer.id] : await this.configService.getBaseStyleAsync();
+
+        this.mapService.getVectorLayer(layer ? layer.id : undefined).subscribe(data => {
+            const lyr = new VectorLayer({
+                source: new VectorSource({
+                    features: new GeoJSON().readFeatures(data)
+                }),
+                style: function(feature): Style[] {
+                    if (style.type === ProductLayerStyleType.CATEGORIZED) {
+                        const val = feature.get(style.column);
+                        if (val) {
+                            return [this.getCategorizedStyle(val, style.categories)];
+                        }
+                    }
+
+                    // If we cannot find a style for the feature, return an empty Style object, hiding it.
+                    return [new Style()];
+                }.bind(this)
+            });
+            lyr.set('name', layer? layer.name : 'Parcelles');
+            lyr.set('prodId', layer ? layer.id : 'baselayer');
+
+            this.map.addLayer(lyr);
         },
         err => {
-          // If we get an Unauthorized response, the user is not allowed to use the app. Go back to the login page.
-          if (err.status === 401) {
-            this.router.navigate(["login"]);
-          // Else if the response is Forbidden, the user is not allowed to see the data.
-          } else if (err.status === 403) {
-            this.alertService.alert(AlertType.ERROR, 'You are not eligible to access proprietary data. Sorry.');
-          }
+            // If we get an Unauthorized response, the user is not allowed to use the app. Go back to the login page.
+            if (err.status === 401) {
+                this.router.navigate(["login"]);
+                // Else if the response is Forbidden, the user is not allowed to see the data.
+            } else if (err.status === 403) {
+                this.alertService.alert(AlertType.ERROR, 'You are not eligible to access proprietary data. Sorry.');
+            } else if (err.status === 404) {
+                this.alertService.alert(AlertType.ERROR, 'One of the layers in the selected map could not be found.');
+            }
         });
-      }
+    }
+
+    /**
+     * Adds a new raster layer (WMS) to the map.
+     * @param layer Layer description
+     */
+    private addRasterLayer(layer: ProductLayer): void {
+
+    }
+
+    /**
+     * Returns a layer with the provided product ID.
+     * @param id
+     */
+    private getLayer(id: string): BaseLayer {
+        const layers = this.map.getLayers().getArray();
+
+        return layers.find((l: BaseLayer) => l.get('prodId') === id);
+    }
+
+    /**
+     * Returns a Style object based on the category the input value falls into.
+     * @param value Input value
+     * @param categories List of categories
+     */
+    private getCategorizedStyle(value: string, categories: ProductLayerStyleCategory[]): Style {
+        const cat = categories.find(c => c.value === value);
+
+        if (cat) {
+            return new Style({
+                fill: new Fill({
+                    color: cat.fill
+                }),
+                stroke: new Stroke({
+                    color: cat.stroke,
+                    width: cat.strokeWidth
+                })
+            });
+        } else {
+            return new Style();
+        }
     }
 }

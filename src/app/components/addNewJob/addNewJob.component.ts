@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertType } from 'src/app/models/alert.model';
-import { Product } from 'src/app/models/product.model';
+import { EntryType, Product } from 'src/app/models/product.model';
 import { HomePage } from 'src/app/pages/home';
 import AlertService from 'src/app/services/alert.service';
 import ConfigService from 'src/app/services/config.service';
@@ -15,6 +15,9 @@ import ConfigService from 'src/app/services/config.service';
 export class AddNewJobComponent implements OnInit {
   public activeNode: Product;
 
+  @Output() close = new EventEmitter();
+  @Output() showMap = new EventEmitter<string>();
+
   constructor(
     private configService: ConfigService,
     private alertService: AlertService,
@@ -26,10 +29,14 @@ export class AddNewJobComponent implements OnInit {
 
   /**
    * Listener called when the user clicks on a GUI category button.
-   * @param item 
+   * @param item
    */
   public navigateTo(item: Product) {
     this.activeNode = item;
+    if (item.type === EntryType.MAP) {
+        this.showMap.emit(item.id);
+        this.close.emit();
+    }
   }
 
   /**

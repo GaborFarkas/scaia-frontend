@@ -1,13 +1,13 @@
 <div class="home-body">
   <app-navbar (navMode)="changeMode($event)" [userData]="userData" (logOut)="logout()"></app-navbar>
-  <app-map [canLoadData]="!!userData"></app-map>
+  <app-map #map [canLoadData]="!!userData"></app-map>
 
   <div class="main_container">
     <!--This is the main container, including logos, OL Map, controllers, and the main field-->
     <div class="main_field" *ngIf="mode !== ''">
       <!--Here the main content can be found. Every sub-component (calculations, registration form etc) will be visible here-->
         <app-userSettings *ngIf="mode === 'userSettings'" [userNameInput]="getUserName('')"></app-userSettings>
-        <app-addNewJob *ngIf="mode === 'addNewJob'"></app-addNewJob>
+        <app-addNewJob *ngIf="mode === 'addNewJob'" (showMap)="showMap($event)" (close)="close()"></app-addNewJob>
         <app-jobQuery *ngIf="mode === 'jobQuery'"></app-jobQuery>
         <app-dataDownload *ngIf="mode === 'dataDownload'"></app-dataDownload>
         <app-contact *ngIf="mode === 'contact'"></app-contact>

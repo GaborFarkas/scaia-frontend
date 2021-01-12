@@ -1,9 +1,11 @@
-import { Component, ViewEncapsulation, OnInit, Input } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, Input, ViewChild } from '@angular/core';
 import AuthService from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { UserData } from 'src/app/models/userdata.model';
 import ConfigService from 'src/app/services/config.service';
 import { NavbarComponent } from 'src/app/components/navbar';
+import { MapComponent } from 'src/app/components/map';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   templateUrl: 'home.page.html' ,
@@ -13,6 +15,8 @@ import { NavbarComponent } from 'src/app/components/navbar';
 export class HomePage implements OnInit {
   public userData: UserData;
   public mode: string = "";
+
+  @ViewChild('map') map: MapComponent;
 
   constructor(
     private authService: AuthService,
@@ -54,6 +58,21 @@ export class HomePage implements OnInit {
     this.authService.logout().subscribe(() => {
       this.router.navigate(["login"]);
     });
+  }
+
+  /**
+   * Closes the current window.
+   */
+  public close(): void {
+      this.mode = "";
+  }
+
+  /**
+   * Adds a product map (set of layers) to the map.
+   * @param mapId
+   */
+  public showMap(mapId: string) {
+      this.map.addMap(mapId);
   }
 
 }
