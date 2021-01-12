@@ -3,6 +3,8 @@ import { noUndefined } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
 import { GlobalConstants } from 'src/global';
 import { Product } from '../models/product.model';
+import { ProductLayerStyle } from '../models/productlayerstyle.model';
+import { ProductMap } from '../models/productmap.model';
 
 @Injectable({ providedIn: 'root' })
 export default class ConfigService {
@@ -23,8 +25,47 @@ export default class ConfigService {
 
             this.cache['products'] = raw;
         }
-        
+
         return this.cache['products'];
+    }
+
+    /**
+     * Returns the static map configurations.
+     */
+    public async getMapsAsync(): Promise<Record<string, ProductMap>> {
+        const mapUrl = this.baseUrl + '/get_config?config=maps_static.json';
+
+        if (!this.cache['maps']) {
+            this.cache['maps'] = await this.http.get<Record<string, ProductMap>>(mapUrl).toPromise();
+        }
+
+        return this.cache['maps'];
+    }
+
+    /**
+     * Returns a style for every vector layer result.
+     */
+    public async getStylesAsync(): Promise<Record<string, ProductLayerStyle>> {
+        const styleUrl = this.baseUrl + '/get_config?config=style.json';
+
+        if (!this.cache['styles']) {
+            this.cache['styles'] = await this.http.get<Record<string, ProductLayerStyle>>(styleUrl).toPromise();
+        }
+
+        return this.cache['styles'];
+    }
+
+    /**
+     * Returns the vector style associated with the base vector layer.
+     */
+    public async getBaseStyleAsync(): Promise<ProductLayerStyle> {
+        const styleUrl = this.baseUrl + '/get_config?config=basemap.style.json';
+
+        if (!this.cache['basestyle']) {
+            this.cache['basestyle'] = await this.http.get<ProductLayerStyle>(styleUrl).toPromise();
+        }
+
+        return this.cache['basestyle'];
     }
 
     /**
@@ -36,6 +77,6 @@ export default class ConfigService {
                 node.items[i].prev = node;
                 this.prepareProducts(node.items[i]);
             }
-        } 
+        }
     }
 }

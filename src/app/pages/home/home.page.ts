@@ -27,8 +27,11 @@ export class HomePage implements OnInit {
       } else {
         this.userData = data.userData;
 
-        // Request the product config at this point so it will be cached when used.
+        // Request static configs at this point so they will be cached when used.
         this.configService.getProductsAsync();
+        this.configService.getMapsAsync();
+        this.configService.getStylesAsync();
+        this.configService.getBaseStyleAsync();
       }
     },
     err => {
