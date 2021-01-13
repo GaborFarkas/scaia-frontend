@@ -16,7 +16,9 @@ export interface ProductInput {
 export enum EntryType {
     CATEGORY = 'category',
     PROCESS = 'process',
-    MAP = 'map'
+    MAP = 'map',
+    HELP = 'help',
+    CONTENT = 'content'
 }
 
 export enum ProductInputType {

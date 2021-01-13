@@ -21,7 +21,7 @@ export default class ConfigService {
 
         if (!this.cache['products']) {
             const raw = await this.http.get<Product>(productUrl).toPromise();
-            this.prepareProducts(raw);
+            this.prepareProducts(raw, false);
 
             this.cache['products'] = raw;
         }
@@ -38,7 +38,7 @@ export default class ConfigService {
         if (!this.cache['help']) {
             const raw = await this.http.get<Product>(helpUrl).toPromise();
             this.convertToHelp(raw);
-            this.prepareProducts(raw);
+            this.prepareProducts(raw, true);
 
             this.cache['help'] = raw;
         }
@@ -88,11 +88,18 @@ export default class ConfigService {
     /**
      * Prepares the product list by extending the raw JSON with prev nodes.
      */
-    private prepareProducts(node: Product): void {
+    private prepareProducts(node: Product, help: boolean): void {
         if (node.items && node.items.length) {
             for (let i = 0; i < node.items.length; ++i) {
-                node.items[i].prev = node;
-                this.prepareProducts(node.items[i]);
+                if (!help && node.items[i].type === EntryType.HELP) {
+                    // If this is a help node in a process config, remove it.
+                    node.items.splice(i, 1);
+                    // Reduce the index, as splicing is done in-place and now the array has one less element.
+                    i -= 1;
+                } else {
+                    node.items[i].prev = node;
+                    this.prepareProducts(node.items[i], help);
+                }
             }
         }
     }
@@ -102,14 +109,6 @@ export default class ConfigService {
      * @param node
      */
     private convertToHelp(node: Product): void {
-        node.name = "Help";
-        const general: Product = {
-            name: "General",
-            type: EntryType.PROCESS,
-            icon: "fas fa-question-circle"
-        };
-
-        // Insert a new General node to the start of the first category.
-        node.items.splice(0, 0, general);
+        node.name = 'Help';
     }
 }
