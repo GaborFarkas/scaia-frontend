@@ -36,6 +36,7 @@ export class HomePage implements OnInit {
         this.configService.getMapsAsync();
         this.configService.getStylesAsync();
         this.configService.getBaseStyleAsync();
+        this.configService.getHelpAsync();
       }
     },
     err => {

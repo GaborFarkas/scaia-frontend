@@ -1,1 +1,19 @@
-<h1>Help</h1>
+<div class="process-container">
+    <div *ngIf="activeNode" class="process-header">
+      <span>{{activeNode.name}}</span>
+      <div *ngIf="activeNode.prev" class="navigate-back" (click)="goBack()">
+        <span><i class="fas fa-arrow-circle-left"></i>Back</span>
+      </div>
+    </div>
+
+    <div *ngIf="activeNode && activeNode.items" class="btn-container">
+      <div class="btn-grid">
+        <div *ngFor="let item of activeNode.items" class="btn1-div">
+          <button class="process-btn btn1" (click)="navigateTo(item)">
+            <span class="btn-text">{{item.name}}</span>
+            <span class="icon"><i [class]="item.icon || 'fas fa-arrow-circle-right'"></i></span>
+          </button>
+        </div>
+      </div>
+    </div>
+</div>

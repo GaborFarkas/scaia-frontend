@@ -83,7 +83,7 @@ app-map {
   position: relative;
 }
 
-app-addnewjob {
+app-addnewjob, app-help {
   height: 100%;
   width: 100%;
 }

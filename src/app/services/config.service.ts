@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { noUndefined } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
 import { GlobalConstants } from 'src/global';
-import { Product } from '../models/product.model';
+import { EntryType, Product } from '../models/product.model';
 import { ProductLayerStyle } from '../models/productlayerstyle.model';
 import { ProductMap } from '../models/productmap.model';
 
@@ -27,6 +27,23 @@ export default class ConfigService {
         }
 
         return this.cache['products'];
+    }
+
+    /**
+     * Returns the help config in a promise
+     */
+    public async getHelpAsync(): Promise<Product> {
+        const helpUrl = this.baseUrl + '/get_config?config=product.json';
+
+        if (!this.cache['help']) {
+            const raw = await this.http.get<Product>(helpUrl).toPromise();
+            this.convertToHelp(raw);
+            this.prepareProducts(raw);
+
+            this.cache['help'] = raw;
+        }
+
+        return this.cache['help'];
     }
 
     /**
@@ -78,5 +95,21 @@ export default class ConfigService {
                 this.prepareProducts(node.items[i]);
             }
         }
+    }
+
+    /**
+     * Converts the product config to help config.
+     * @param node
+     */
+    private convertToHelp(node: Product): void {
+        node.name = "Help";
+        const general: Product = {
+            name: "General",
+            type: EntryType.PROCESS,
+            icon: "fas fa-question-circle"
+        };
+
+        // Insert a new General node to the start of the first category.
+        node.items.splice(0, 0, general);
     }
 }
