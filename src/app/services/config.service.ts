@@ -46,6 +46,22 @@ export default class ConfigService {
         return this.cache['help'];
     }
 
+    public async getHelpCardsAsync(node: Product): Promise<void> {
+        const helpCardUrl = this.baseUrl + '/get_help?category=' + node.id;
+
+        if (!this.cache['help']) {
+            await this.getHelpAsync();
+        }
+
+        this.http.get<Product[]>(helpCardUrl).subscribe(data => {
+            node.items = data;
+
+            for (let i = 0; i < node.items.length; ++i) {
+                node.items[i].prev = node;
+            }
+        });
+    }
+
     /**
      * Returns the static map configurations.
      */
@@ -91,8 +107,9 @@ export default class ConfigService {
     private prepareProducts(node: Product, help: boolean): void {
         if (node.items && node.items.length) {
             for (let i = 0; i < node.items.length; ++i) {
-                if (!help && node.items[i].type === EntryType.HELP) {
+                if ((!help && node.items[i].type === EntryType.HELP) || (help && this.isEmptyCategory(node.items[i]))) {
                     // If this is a help node in a process config, remove it.
+                    // Also, if it is an empty category node, remove it from the help config, as it cannot hold entries.
                     node.items.splice(i, 1);
                     // Reduce the index, as splicing is done in-place and now the array has one less element.
                     i -= 1;
@@ -110,5 +127,13 @@ export default class ConfigService {
      */
     private convertToHelp(node: Product): void {
         node.name = 'Help';
+    }
+
+    /**
+     * Returns true if provided Product node is an empty category.
+     * @param node
+     */
+    private isEmptyCategory(node: Product): boolean {
+        return node.type === EntryType.CATEGORY && (!node.items || !node.items.length);
     }
 }

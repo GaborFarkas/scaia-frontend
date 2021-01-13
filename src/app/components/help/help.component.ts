@@ -28,6 +28,10 @@ export class HelpComponent implements OnInit {
      */
     public navigateTo(item: Product) {
       this.activeNode = item;
+
+      if (this.activeNode.id && !this.activeNode.items) {
+          this.configService.getHelpCardsAsync(this.activeNode);
+      }
     }
 
     /**
