@@ -7,11 +7,11 @@
     <div class="main_field" *ngIf="mode !== ''">
       <!--Here the main content can be found. Every sub-component (calculations, registration form etc) will be visible here-->
         <app-userSettings *ngIf="mode === 'userSettings'" [userNameInput]="getUserName('')"></app-userSettings>
-        <app-addNewJob *ngIf="mode === 'addNewJob'" (showMap)="showMap($event)" (close)="close()"></app-addNewJob>
+        <app-addNewJob #addNewJob *ngIf="mode === 'addNewJob'" [navigateId]="navigateId" (showMap)="showMap($event)" (close)="close()" (getHelp)="onHelp($event)"></app-addNewJob>
         <app-jobQuery *ngIf="mode === 'jobQuery'"></app-jobQuery>
         <app-dataDownload *ngIf="mode === 'dataDownload'"></app-dataDownload>
         <app-contact *ngIf="mode === 'contact'"></app-contact>
-        <app-help *ngIf="mode === 'help'"></app-help>
+        <app-help #help *ngIf="mode === 'help'" [navigateId]="navigateId" (navigateBack)="onHelpBack()"></app-help>
         <app-tutorial *ngIf="mode === 'tutorial'"></app-tutorial>
     </div>
 
