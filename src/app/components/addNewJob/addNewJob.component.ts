@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertType } from 'src/app/models/alert.model';
-import { EntryType, getNodeById, Product } from 'src/app/models/product.model';
+import { EntryType, Product } from 'src/app/models/product.model';
 import { HomePage } from 'src/app/pages/home';
 import AlertService from 'src/app/services/alert.service';
 import ConfigService from 'src/app/services/config.service';
@@ -52,7 +52,8 @@ export class AddNewJobComponent implements OnInit {
             rootNode = rootNode.prev;
         }
 
-        this.navigateTo(getNodeById(rootNode, id));
+        const targetNode = this.configService.getProductById(rootNode, id);
+        this.navigateTo(targetNode);
     }
 
     /**

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertType } from 'src/app/models/alert.model';
-import { getNodeById, Product } from 'src/app/models/product.model';
+import { Product } from 'src/app/models/product.model';
 import AlertService from 'src/app/services/alert.service';
 import ConfigService from 'src/app/services/config.service';
 
@@ -48,7 +48,8 @@ export class HelpComponent implements OnInit {
             rootNode = rootNode.prev;
         }
 
-        this.navigateTo(getNodeById(rootNode, id));
+        const targetNode = this.configService.getProductById(rootNode, id);
+        this.navigateTo(targetNode);
     }
 
     /**

@@ -136,4 +136,24 @@ export default class ConfigService {
     private isEmptyCategory(node: Product): boolean {
         return node.type === EntryType.CATEGORY && (!node.items || !node.items.length);
     }
+
+    /**
+     * Get the Product with the provided ID.
+     * @param node
+     * @param id
+     */
+    public getProductById(node: Product, id: string): Product {
+        if (node.id === id) {
+            return node;
+        } else if (node.items) {
+            for (let i = 0; i < node.items.length; ++i) {
+                const child = this.getProductById(node.items[i], id);
+                if (child) {
+                    return child;
+                }
+            }
+        }
+
+        return null;
+    }
 }
