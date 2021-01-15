@@ -9,6 +9,7 @@ import { UserData } from 'src/app/models/userdata.model';
 })
 export class NavbarComponent {
   @Input() userData: UserData;
+  @Input() mode: string;
 
   @Output() navMode = new EventEmitter<string>();
   @Output() logOut = new EventEmitter();
