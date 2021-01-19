@@ -13,6 +13,12 @@ html, body {
     width: 15em;
     max-height: 80%;
     overflow-y: hidden;
+    transition: all 1s linear;
+}
+
+.ol-layerswitcher .ol-layerswitcher-title {
+    text-align: center;
+    font-size: large;
 }
 
 .ol-layerswitcher .ol-layerswitcher-container {
@@ -21,8 +27,9 @@ html, body {
     height: fit-content;
 }
 
-.ol-layerswitcher-layer {
+.ol-layerswitcher .ol-layerswitcher-layer {
     width: 100%;
+    flex-direction: column;
 }
 
 .ol-layerswitcher-container>.ol-layerswitcher-layer, .ol-layerswitcher-group {
@@ -33,7 +40,11 @@ html, body {
     overflow-y: hidden;
 }
 
-.ol-layerswitcher-layer div, .ol-layerswitcher-group div {
+.ol-layerswitcher-group-container>.ol-layerswitcher-layer {
+    padding-left: 10px;
+}
+
+.ol-layerswitcher-layer>div, .ol-layerswitcher-group>div, .ol-layerswitcher-header>div, .ol-layerswitcher-legend .ol-layerswitcher-legend-row {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -70,4 +81,32 @@ html, body {
 
 .ol-layerswitcher-header .ol-layerswitcher-btn.disabled {
     color: grey;
+}
+
+.ol-layerswitcher-layer .ol-layerswitcher-legend {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    overflow-y: hidden;
+    align-items: flex-start;
+}
+
+.ol-layerswitcher-legend .ol-layerswitcher-legend-row {
+    width: 100%;
+    justify-content: flex-start;
+    min-height: 1.5em;
+}
+
+.ol-layerswitcher-legend-row .ol-layerswitcher-legend-rect {
+    width: 1em;
+    height: 1em;
+    margin-right: 10px;
+    box-sizing: border-box;
+}
+
+.ol-layerswitcher-legend-row .ol-layerswitcher-legend-label {
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
 }

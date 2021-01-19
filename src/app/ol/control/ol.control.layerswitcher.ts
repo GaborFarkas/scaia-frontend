@@ -2,7 +2,7 @@ import { PluggableMap } from 'ol';
 import Control, { Options } from 'ol/control/Control';
 import BaseLayer from 'ol/layer/Base';
 import LayerGroup from 'ol/layer/Group';
-import { ProductLayerStyle } from 'src/app/models/productlayerstyle.model';
+import { ProductLayerStyle, ProductLayerVectorStyle } from 'src/app/models/productlayerstyle.model';
 
 /**
  * Layer switcher control with legend display. Can control visibility of layers and groups, and can remove individual layers or whole groups.
@@ -31,6 +31,7 @@ export default class LayerSwitcher extends Control {
         element.className = 'ol-layerswitcher ol-unselectable ol-control';
 
         const lbl = document.createElement('div');
+        lbl.className = 'ol-layerswitcher-title';
         lbl.textContent = 'Layers';
         element.appendChild(lbl);
 
@@ -109,7 +110,15 @@ export default class LayerSwitcher extends Control {
         entry.appendChild(head);
 
         if (legendBase) {
-            // TODO: Add legend, add listeners
+            const legend = this.createLegend(legendBase);
+
+            head.addEventListener('click', function(evt) {
+                evt.stopPropagation();
+
+                legend.style.height = legend.style.height ? '' : '0';
+            });
+
+            entry.appendChild(legend);
         }
 
         container.appendChild(entry);
@@ -224,10 +233,55 @@ export default class LayerSwitcher extends Control {
         layer.on('propertychange', function(evt) {
             if (evt.key === 'name') {
                 lyrName.textContent = evt.target.get(evt.key);
+                head.title = evt.target.get(evt.key);
             }
         });
 
         return head;
+    }
+
+    /**
+     * Creates a legend div from a style descriptor.
+     * @param style
+     */
+    private createLegend(style: ProductLayerStyle): HTMLDivElement {
+        const legendCont = document.createElement('div');
+        legendCont.className = 'ol-layerswitcher-legend';
+
+        if (style.categories) {
+            for (let i = 0; i < style.categories.length; ++i) {
+                legendCont.appendChild(this.createLegendEntry(style.categories[i].legend, style.categories[i].style));
+            }
+        }
+
+        if (style.default) {
+            legendCont.appendChild(this.createLegendEntry('', style.default));
+        }
+
+        return legendCont;
+    }
+
+    /**
+     * Creates a single legend row.
+     */
+    private createLegendEntry(name: string, style: ProductLayerVectorStyle): HTMLDivElement {
+        const row = document.createElement('div');
+        row.className = 'ol-layerswitcher-legend-row';
+
+        const rect = document.createElement('div');
+        rect.className = 'ol-layerswitcher-legend-rect';
+        rect.style.borderColor = style.stroke;
+        rect.style.borderStyle = 'solid';
+        rect.style.borderWidth = style.strokeWidth + 'px';
+        rect.style.backgroundColor = style.fill;
+        row.appendChild(rect);
+
+        const label = document.createElement('div');
+        label.className = 'ol-layerswitcher-legend-label';
+        label.textContent = name;
+        row.appendChild(label);
+
+        return row;
     }
 
     /**
