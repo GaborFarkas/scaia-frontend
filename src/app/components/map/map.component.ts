@@ -21,6 +21,7 @@ import Fill from 'ol/style/Fill';
 import { ProductMap } from 'src/app/models/productmap.model';
 import LayerGroup from 'ol/layer/Group';
 import Layer from 'ol/layer/Layer';
+import LayerSwitcher from 'src/app/ol/control/ol.control.layerswitcher';
 
 @Component({
     selector: 'app-map',
@@ -52,8 +53,10 @@ export class MapComponent implements AfterViewInit {
                 center: [2029079.7791264898, 5855220.284081122],
                 zoom: 12
             }),
-            controls: []
+            controls: [new LayerSwitcher()]
         });
+
+        this.map.getLayers().getArray()[0].set('name', 'OpenStreetMap');
     }
 
     /**
@@ -83,7 +86,7 @@ export class MapComponent implements AfterViewInit {
         }
 
         for (let i = 0; i < conf.layers.length; ++i) {
-            this.addLayer(conf.layers[i], mapId);
+            this.addLayer(conf.layers[i], mapId, conf.name);
         }
     }
 
@@ -92,7 +95,7 @@ export class MapComponent implements AfterViewInit {
      * @param layer Layer descriptor for the layer to add
      * @param groupId ID of the layer group this layer belongs to
      */
-    public async addLayer(layer?: ProductLayer, groupId?: string): Promise<void> {
+    public async addLayer(layer?: ProductLayer, groupId?: string, groupName?: string): Promise<void> {
         const lyr = this.getLayer(layer ? layer.id : 'baselayer', groupId);
 
         if (lyr) {
@@ -100,7 +103,7 @@ export class MapComponent implements AfterViewInit {
         } else {
             let grp: LayerGroup;
             if (groupId) {
-                grp = this.getOrCreateGroup(groupId);
+                grp = this.getOrCreateGroup(groupId, groupName);
             }
 
             if (!layer || layer.type === ProductLayerType.VECTOR) {
@@ -195,7 +198,7 @@ export class MapComponent implements AfterViewInit {
     /**
      * Finds and returns an existing layer group or creates it.
      */
-    private getOrCreateGroup(id: string): LayerGroup {
+    private getOrCreateGroup(id: string, name: string): LayerGroup {
         const group = this.map.getLayers().getArray().find((l: BaseLayer) => l instanceof LayerGroup && l.get('groupId') === id);
 
         if (group) {
@@ -203,6 +206,7 @@ export class MapComponent implements AfterViewInit {
         } else {
             const grp = new LayerGroup();
             grp.set('groupId', id);
+            grp.set('name', name);
             this.map.addLayer(grp);
 
             return grp;
