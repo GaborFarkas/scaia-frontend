@@ -85,8 +85,10 @@ export class MapComponent implements AfterViewInit {
             // TODO: Implement
         }
 
+        const singleLyr = conf.layers.length === 1;
+
         for (let i = 0; i < conf.layers.length; ++i) {
-            this.addLayer(conf.layers[i], mapId, conf.name);
+            this.addLayer(conf.layers[i], singleLyr ? undefined : mapId, singleLyr ? undefined : conf.name);
         }
     }
 
