@@ -16,8 +16,10 @@ import ConfigService from 'src/app/services/config.service';
 import { config } from 'process';
 import BaseLayer from 'ol/layer/Base';
 import { ProductLayer, ProductLayerType } from 'src/app/models/productlayer.model';
-import { ProductLayerStyleCategory, ProductLayerStyleType } from 'src/app/models/productlayerstyle.model';
+import { ProductLayerStyleCategory, ProductLayerStyleType, ProductLayerVectorStyle } from 'src/app/models/productlayerstyle.model';
 import Fill from 'ol/style/Fill';
+import { ProductMap } from 'src/app/models/productmap.model';
+import LayerGroup from 'ol/layer/Group';
 
 @Component({
     selector: 'app-map',
@@ -65,33 +67,36 @@ export class MapComponent implements AfterViewInit {
 
     /**
      * Adds a product map (set of layers) to the map.
-     * @param id Id of the product map. If empty, the base vector layer is loaded.
+     * @param mapId Id of the product map. If empty, the base vector layer is loaded.
      */
     public async addMap(mapId: string): Promise<void> {
         const mapConf = await this.configService.getMapsAsync();
+        let conf: ProductMap;
 
         if (mapConf[mapId]) {
             // This is a static map.
-            const conf = mapConf[mapId];
-            for (let i = 0; i < conf.layers.length; ++i) {
-                this.addLayer(conf.layers[i], conf.layers[i].type);
-            }
+            conf = mapConf[mapId];
         } else {
             // This is a dynamic map. The layer IDs must contain the generation date.
+            // TODO: Implement
+        }
+
+        for (let i = 0; i < conf.layers.length; ++i) {
+            this.addLayer(conf.layers[i], mapId);
         }
     }
 
     /**
      * Adds a single layer to the map. If the layer is already present, sets its visibility to true.
-     * @param layerId
-     * @param type
+     * @param layer Layer descriptor for the layer to add
+     * @param groupId ID of the layer group this layer belongs to
      */
-    public async addLayer(layer?: ProductLayer, type?: ProductLayerType): Promise<void> {
-        const lyr = this.getLayer(layer ? layer.id : 'baselayer');
+    public async addLayer(layer?: ProductLayer, groupId?: string): Promise<void> {
+        const lyr = this.getLayer(layer ? layer.id : 'baselayer', groupId);
 
         if (lyr) {
             lyr.setVisible(true);
-        } else if (!type || type === ProductLayerType.VECTOR) {
+        } else if (!layer || layer.type === ProductLayerType.VECTOR) {
             await this.addVectorLayer(layer);
         } else {
             this.addRasterLayer(layer);
@@ -114,16 +119,17 @@ export class MapComponent implements AfterViewInit {
                     if (style.type === ProductLayerStyleType.CATEGORIZED) {
                         const val = feature.get(style.column);
                         if (val) {
-                            return [this.getCategorizedStyle(val, style.categories)];
+                            return [this.getCategorizedStyle(val, style.categories, style.default)];
                         }
                     }
 
                     // If we cannot find a style for the feature, return an empty Style object, hiding it.
-                    return [new Style()];
+                    return [style.default ? this.convertToStyleObject(style.default) : new Style()];
                 }.bind(this)
             });
             lyr.set('name', layer? layer.name : 'Parcelles');
             lyr.set('prodId', layer ? layer.id : 'baselayer');
+            lyr.set('descriptor', style);
 
             this.map.addLayer(lyr);
         },
@@ -152,8 +158,23 @@ export class MapComponent implements AfterViewInit {
      * Returns a layer with the provided product ID.
      * @param id
      */
-    private getLayer(id: string): BaseLayer {
-        const layers = this.map.getLayers().getArray();
+    private getLayer(id: string, groupId?: string): BaseLayer {
+        let layers: BaseLayer[];
+
+        if (groupId) {
+            // If we have a groupId, find the correct layer group.
+            const group = this.map.getLayers().getArray().find((l: BaseLayer) => l.get('groupId') === groupId);
+            if (group) {
+                // If the layer group exists, search within its layer collection.
+                layers = (group as LayerGroup).getLayers().getArray();
+            } else {
+                // If not, return undefined, so we can create a new group.
+                return undefined;
+            }
+        } else {
+            // If we don't have a groupId, it is not a grouped layer, search within the map's layer collection.
+            layers = this.map.getLayers().getArray();
+        }
 
         return layers.find((l: BaseLayer) => l.get('prodId') === id);
     }
@@ -163,21 +184,29 @@ export class MapComponent implements AfterViewInit {
      * @param value Input value
      * @param categories List of categories
      */
-    private getCategorizedStyle(value: string, categories: ProductLayerStyleCategory[]): Style {
+    private getCategorizedStyle(value: string, categories: ProductLayerStyleCategory[], defaultStyle?: ProductLayerVectorStyle): Style {
         const cat = categories.find(c => c.value === value);
 
         if (cat) {
-            return new Style({
-                fill: new Fill({
-                    color: cat.fill
-                }),
-                stroke: new Stroke({
-                    color: cat.stroke,
-                    width: cat.strokeWidth
-                })
-            });
+            return this.convertToStyleObject(cat.style);
         } else {
-            return new Style();
+            return defaultStyle ? this.convertToStyleObject(defaultStyle) : new Style();
         }
+    }
+
+    /**
+     * Converts a style descriptor to an OL style object
+     * @param desc
+     */
+    private convertToStyleObject(desc: ProductLayerVectorStyle): Style {
+        return new Style({
+            fill: new Fill({
+                color: desc.fill
+            }),
+            stroke: new Stroke({
+                color: desc.stroke,
+                width: desc.strokeWidth
+            })
+        });
     }
 }
