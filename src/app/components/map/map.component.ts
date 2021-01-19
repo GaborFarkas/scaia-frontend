@@ -20,6 +20,7 @@ import { ProductLayerStyleCategory, ProductLayerStyleType, ProductLayerVectorSty
 import Fill from 'ol/style/Fill';
 import { ProductMap } from 'src/app/models/productmap.model';
 import LayerGroup from 'ol/layer/Group';
+import Layer from 'ol/layer/Layer';
 
 @Component({
     selector: 'app-map',
@@ -96,18 +97,26 @@ export class MapComponent implements AfterViewInit {
 
         if (lyr) {
             lyr.setVisible(true);
-        } else if (!layer || layer.type === ProductLayerType.VECTOR) {
-            await this.addVectorLayer(layer);
         } else {
-            this.addRasterLayer(layer);
+            let grp: LayerGroup;
+            if (groupId) {
+                grp = this.getOrCreateGroup(groupId);
+            }
+
+            if (!layer || layer.type === ProductLayerType.VECTOR) {
+                await this.addVectorLayer(layer, grp);
+            } else {
+                this.addRasterLayer(layer);
+            }
         }
     }
 
     /**
      * Adds a new vector layer (GeoJSON) to the map.
      * @param layer Layer description
+     * @param group Layer group to put this layer in
      */
-    private async addVectorLayer(layer?: ProductLayer): Promise<void> {
+    private async addVectorLayer(layer?: ProductLayer, group?: LayerGroup): Promise<void> {
         const style = layer ? (await this.configService.getStylesAsync())[layer.id] : await this.configService.getBaseStyleAsync();
 
         this.mapService.getVectorLayer(layer ? layer.id : undefined).subscribe(data => {
@@ -115,7 +124,7 @@ export class MapComponent implements AfterViewInit {
                 source: new VectorSource({
                     features: new GeoJSON().readFeatures(data)
                 }),
-                style: function(feature): Style[] {
+                style: function (feature): Style[] {
                     if (style.type === ProductLayerStyleType.CATEGORIZED) {
                         const val = feature.get(style.column);
                         if (val) {
@@ -127,23 +136,27 @@ export class MapComponent implements AfterViewInit {
                     return [style.default ? this.convertToStyleObject(style.default) : new Style()];
                 }.bind(this)
             });
-            lyr.set('name', layer? layer.name : 'Parcelles');
+            lyr.set('name', layer ? layer.name : 'Parcelles');
             lyr.set('prodId', layer ? layer.id : 'baselayer');
             lyr.set('descriptor', style);
 
-            this.map.addLayer(lyr);
-        },
-        err => {
-            // If we get an Unauthorized response, the user is not allowed to use the app. Go back to the login page.
-            if (err.status === 401) {
-                this.router.navigate(["login"]);
-                // Else if the response is Forbidden, the user is not allowed to see the data.
-            } else if (err.status === 403) {
-                this.alertService.alert(AlertType.ERROR, 'You are not eligible to access proprietary data. Sorry.');
-            } else if (err.status === 404) {
-                this.alertService.alert(AlertType.ERROR, 'One of the layers in the selected map could not be found.');
+            if (group) {
+                group.getLayers().push(lyr);
+            } else {
+                this.map.addLayer(lyr);
             }
-        });
+        },
+            err => {
+                // If we get an Unauthorized response, the user is not allowed to use the app. Go back to the login page.
+                if (err.status === 401) {
+                    this.router.navigate(["login"]);
+                    // Else if the response is Forbidden, the user is not allowed to see the data.
+                } else if (err.status === 403) {
+                    this.alertService.alert(AlertType.ERROR, 'You are not eligible to access proprietary data. Sorry.');
+                } else if (err.status === 404) {
+                    this.alertService.alert(AlertType.ERROR, 'One of the layers in the selected map could not be found.');
+                }
+            });
     }
 
     /**
@@ -177,6 +190,23 @@ export class MapComponent implements AfterViewInit {
         }
 
         return layers.find((l: BaseLayer) => l.get('prodId') === id);
+    }
+
+    /**
+     * Finds and returns an existing layer group or creates it.
+     */
+    private getOrCreateGroup(id: string): LayerGroup {
+        const group = this.map.getLayers().getArray().find((l: BaseLayer) => l instanceof LayerGroup && l.get('groupId') === id);
+
+        if (group) {
+            return group as LayerGroup;
+        } else {
+            const grp = new LayerGroup();
+            grp.set('groupId', id);
+            this.map.addLayer(grp);
+
+            return grp;
+        }
     }
 
     /**
