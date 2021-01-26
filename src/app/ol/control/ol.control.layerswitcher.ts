@@ -92,7 +92,6 @@ export default class LayerSwitcher extends Control {
                 }
             }.bind(this))
         }
-        console.log(map.getLayers().getArray());
     }
 
     /**

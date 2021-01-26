@@ -9,6 +9,7 @@ import { AlertType } from 'src/app/models/alert.model';
 import { Router } from '@angular/router';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
+import TileWMS from 'ol/source/TileWMS';
 import GeoJSON from 'ol/format/GeoJSON';
 import Style from 'ol/style/Style';
 import Stroke from 'ol/style/Stroke';
@@ -22,6 +23,7 @@ import { ProductMap } from 'src/app/models/productmap.model';
 import LayerGroup from 'ol/layer/Group';
 import Layer from 'ol/layer/Layer';
 import LayerSwitcher from 'src/app/ol/control/ol.control.layerswitcher';
+import { GlobalConstants } from 'src/global';
 
 @Component({
     selector: 'app-map',
@@ -111,7 +113,7 @@ export class MapComponent implements AfterViewInit {
             if (!layer || layer.type === ProductLayerType.VECTOR) {
                 await this.addVectorLayer(layer, grp);
             } else {
-                this.addRasterLayer(layer);
+                this.addRasterLayer(layer, grp);
             }
         }
     }
@@ -168,8 +170,26 @@ export class MapComponent implements AfterViewInit {
      * Adds a new raster layer (WMS) to the map.
      * @param layer Layer description
      */
-    private addRasterLayer(layer: ProductLayer): void {
+    private async addRasterLayer(layer: ProductLayer, group: LayerGroup): Promise<void> {
+        const style = (await this.configService.getStylesAsync())[layer.id];
 
+        const lyr = new TileLayer({
+            source: new TileWMS({
+                url: GlobalConstants.mapServerUrl + '?map=' + GlobalConstants.mapFilePrefix + '/' + layer.mapfile,
+                params: {
+                    layers: layer.id
+                }
+            })
+        });
+        lyr.set('name', layer ? layer.name : 'Parcelles');
+        lyr.set('prodId', layer ? layer.id : 'baselayer');
+        lyr.set('descriptor', style);
+
+        if (group) {
+            group.getLayers().push(lyr);
+        } else {
+            this.map.addLayer(lyr);
+        }
     }
 
     /**
