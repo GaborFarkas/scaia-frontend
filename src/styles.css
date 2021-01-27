@@ -12,7 +12,7 @@ html, body {
     top: .5em;
     width: 15em;
     max-height: 80%;
-    overflow-y: hidden;
+    overflow-y: auto;
     transition: all 1s linear;
 }
 
@@ -36,7 +36,8 @@ html, body {
     margin-top: 10px;
 }
 
-.ol-layerswitcher-group-container {
+.ol-layerswitcher-group .ol-layerswitcher-group-container {
+    flex-direction: column;
     overflow-y: hidden;
 }
 
