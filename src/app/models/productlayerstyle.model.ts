@@ -6,7 +6,8 @@ export interface ProductLayerStyle {
 }
 
 export interface ProductLayerStyleCategory {
-    value: string,
+    value?: string,
+    values?: number[],
     legend: string,
     style: ProductLayerVectorStyle
 }
@@ -18,5 +19,6 @@ export interface ProductLayerVectorStyle {
 }
 
 export enum ProductLayerStyleType {
-    CATEGORIZED = 'categorized'
+    CATEGORIZED = 'categorized',
+    BINNED = 'binned'
 }

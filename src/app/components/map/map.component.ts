@@ -137,6 +137,11 @@ export class MapComponent implements AfterViewInit {
                         if (val) {
                             return [this.getCategorizedStyle(val, style.categories, style.default)];
                         }
+                    } else if (style.type === ProductLayerStyleType.BINNED) {
+                        const val = feature.get(style.column);
+                        if (val) {
+                            return [this.getBinnedStyle(val, style.categories, style.default)];
+                        }
                     }
 
                     // If we cannot find a style for the feature, return an empty Style object, hiding it.
@@ -245,6 +250,22 @@ export class MapComponent implements AfterViewInit {
 
         if (cat) {
             return this.convertToStyleObject(cat.style);
+        } else {
+            return defaultStyle ? this.convertToStyleObject(defaultStyle) : new Style();
+        }
+    }
+
+    /**
+     * Returns a Style objecgt based on the interval (bin) the input value falls into.
+     * @param value
+     * @param categories
+     * @param defaultStyle
+     */
+    private getBinnedStyle(value: number, categories: ProductLayerStyleCategory[], defaultStyle?: ProductLayerVectorStyle): Style {
+        const bin = categories.find((c, i) => (i ? c.values[0] < value : c.values[0] <= value) && c.values[1] >= value);
+
+        if (bin) {
+            return this.convertToStyleObject(bin.style);
         } else {
             return defaultStyle ? this.convertToStyleObject(defaultStyle) : new Style();
         }
