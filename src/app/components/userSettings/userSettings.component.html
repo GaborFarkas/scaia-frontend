@@ -1,2 +1,84 @@
-<h1>User Setting</h1>
-<h1>{{userNameInput}}</h1>
+<div class="process-container">
+    <div class="process-header">
+        <span>User settings</span>
+    </div>
+
+    <form class="settings-form" [formGroup]="userSettingsForm" (ngSubmit)="onSubmit(userSettingsForm.value)">
+        <div class="form-group">
+            <label>First name</label>
+            <input type="text" class="form-control" placeholder="Enter first name" [value]="userSettings.fname" formControlName="fname">
+            <div
+                *ngIf="submitted && userSettingsForm.controls.fname.errors && userSettingsForm.controls.fname.errors.required"
+                class="form-validation"
+            >First name is required.</div>
+        </div>
+
+        <div class="form-group">
+            <label>Last name</label>
+            <input type="text" class="form-control" placeholder="Enter last name" [value]="userSettings.lname" formControlName="lname">
+            <div
+                *ngIf="submitted && userSettingsForm.controls.lname.errors && userSettingsForm.controls.lname.errors.required"
+                class="form-validation"
+            >Last name is required.</div>
+        </div>
+
+        <div *ngIf="canChangeUn" class="form-group">
+            <label>Username</label>
+            <input type="text" class="form-control" placeholder="Enter username" [value]="userSettings.username" formControlName="username">
+            <div
+                *ngIf="submitted && userSettingsForm.controls.username.errors && userSettingsForm.controls.username.errors.required"
+                class="form-validation"
+            >Username is required.</div>
+            <div
+                *ngIf="submitted && userSettingsForm.controls.username.errors && userSettingsForm.controls.username.errors.minlength"
+                class="form-validation"
+            >Username must be at least {{minUserLength}} characters long.</div>
+            <div
+                *ngIf="submitted && userSettingsForm.controls.username.errors && userSettingsForm.controls.username.errors.maxlength"
+                class="form-validation"
+            >Username must be shorter than {{maxUserLength + 1}} characters.</div>
+            <div
+                *ngIf="submitted && userSettingsForm.errors && userSettingsForm.errors.userNameExists"
+                class="form-validation"
+            >The selected username already exists.</div>
+            <div
+                *ngIf="submitted && userSettingsForm.errors && userSettingsForm.errors.userNameNotEmail"
+                class="form-validation"
+            >Username must not be an email address.</div>
+            <div
+                *ngIf="submitted && userSettingsForm.errors && userSettingsForm.errors.userNameOnlyOne"
+                class="form-validation"
+            >Username can only be changed once.</div>
+            <div
+                *ngIf="submitted && userSettingsForm.errors && userSettingsForm.errors.userNameCannotChange"
+                class="form-validation"
+            >Username cannot be changed.</div>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" class="form-control" placeholder="Enter password" formControlName="password">
+            <div
+                *ngIf="submitted && userSettingsForm.controls.password.errors && userSettingsForm.controls.password.errors.minlength"
+                class="form-validation"
+            >Password must be at least {{minPwLength}} characters long.</div>
+            <div
+                *ngIf="submitted && userSettingsForm.controls.password.errors && userSettingsForm.controls.password.errors.maxlength"
+                class="form-validation"
+            >Password must be shorter than {{maxPwLength + 1}} characters.</div>
+        </div>
+
+        <div class="form-group">
+            <label>Confirm password</label>
+            <input type="password" class="form-control" placeholder="Confirm password" formControlName="confirm">
+            <div
+                *ngIf="submitted && userSettingsForm.errors && userSettingsForm.errors.passwordMustMatch"
+                class="form-validation"
+            >Passwords must match.</div>
+        </div>
+
+        <input type="hidden" formControlName="csrf">
+
+        <input class="btn btn-dark" type="submit" value="Change settings">
+    </form>
+</div>

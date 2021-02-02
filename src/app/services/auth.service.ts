@@ -7,6 +7,7 @@ import { SignupResponse, SingupRequest } from '../models/signup.model';
 import { ForgotPasswdRequest, ForgotPasswdResponse } from '../models/forgotpasswd.model';
 import { ResetPasswdRequest, ResetPasswdResponse } from '../models/resetPasswd.model';
 import { GlobalConstants } from 'src/global';
+import { UserSettingsRequest, UserSettingsResponse } from '../models/usersettings.model';
 
 @Injectable({ providedIn: 'root' })
 export default class AuthService {
@@ -70,5 +71,15 @@ export default class AuthService {
         }
 
         return this.http.post<ResetPasswdResponse>(resetPwUrl, formData);
+    }
+
+    userSettings() : Observable<UserSettingsResponse> {
+        const usUrl: string = this.baseUrl + '/user_settings';
+        return this.http.get<UserSettingsResponse>(usUrl);
+    }
+
+    changeUserSettings(userSettingsData: UserSettingsRequest) : Observable<UserSettingsResponse> {
+        const usUrl: string = this.baseUrl + '/user_settings';
+        return this.http.post<UserSettingsResponse>(usUrl, modelToFormData(userSettingsData));
     }
 }

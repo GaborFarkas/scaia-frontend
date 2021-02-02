@@ -6,7 +6,7 @@
     <!--This is the main container, including logos, OL Map, controllers, and the main field-->
     <div class="main_field" *ngIf="mode !== ''">
       <!--Here the main content can be found. Every sub-component (calculations, registration form etc) will be visible here-->
-        <app-userSettings *ngIf="mode === 'userSettings'" [userNameInput]="getUserName('')"></app-userSettings>
+        <app-userSettings *ngIf="mode === 'userSettings'" [userSettings]="userData"></app-userSettings>
         <app-addNewJob #addNewJob *ngIf="mode === 'addNewJob'" [navigateId]="navigateId" (showMap)="showMap($event)" (close)="close()" (getHelp)="onHelp($event)"></app-addNewJob>
         <app-jobQuery *ngIf="mode === 'jobQuery'"></app-jobQuery>
         <app-dataDownload *ngIf="mode === 'dataDownload'"></app-dataDownload>
