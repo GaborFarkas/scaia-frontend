@@ -180,7 +180,7 @@ export class MapComponent implements AfterViewInit {
 
         const lyr = new TileLayer({
             source: new TileWMS({
-                url: GlobalConstants.mapServerUrl + '?map=' + GlobalConstants.mapFilePrefix + '/' + layer.mapfile,
+                url: GlobalConstants.baseUrl + '/mapserv?map=' + layer.mapfile,
                 params: {
                     layers: layer.id
                 }
