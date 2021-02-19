@@ -1,29 +1,11 @@
-<div class="jobQuery-container">
-  <h1 class="header-input">{{ content_title1 }}</h1>
-  <div class="btn-div">
-    <div class="btn1-div">
-      <button class="jobQuery-btn btn1">
-        <span class="btn-text">Button One</span>
-        <span class="icon"><i class="fas fa-arrow-circle-right"></i></span>
-      </button>
+<div class="process-container">
+    <div class="process-header">
+        <span>Products</span>
     </div>
-    <div class="btn2-div">
-      <button class="jobQuery-btn btn2">
-        <span class="btn-text">Button Two</span>
-        <span class="icon"><i class="fas fa-arrow-circle-right"></i></span>
-      </button>
+    <div class="process-lists">
+        <div *ngFor="let job of jobs | keyvalue" class="process-list-container">
+            <h5 (click)="toggleExpand($event)">{{job.key}}</h5>
+            <ul></ul>
+        </div>
     </div>
-    <div class="btn3-div">
-      <button class="jobQuery-btn btn3">
-        <span class="btn-text">Button Three</span>
-        <span class="icon"><i class="fas fa-arrow-circle-right"></i></span>
-      </button>
-    </div>
-    <div class="btn4-div">
-      <button class="jobQuery-btn btn4">
-        <span class="btn-text">Button Four</span>
-        <span class="icon"><i class="fas fa-arrow-circle-right"></i></span>
-      </button>
-    </div>
-  </div>
 </div>
