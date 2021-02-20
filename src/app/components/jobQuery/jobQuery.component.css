@@ -21,6 +21,7 @@
     height: 100%;
     width: 100%;
     display: flex;
+    flex-direction: column;
     overflow-y: auto;
 }
 
@@ -36,6 +37,7 @@
     padding: 5px;
     border: 2px solid grey;
     border-radius: 5px;
+    margin-top: 1em;
 }
 
 .process-list-container h5 {
@@ -76,6 +78,18 @@
 
 .process-container table {
     margin: 0;
+}
+
+.process-container table .col-name {
+    width: 30%;
+}
+
+.process-container table .col-created {
+    width: 20%;
+}
+
+.process-container table .col-state {
+    width: 10%;
 }
 
 .process-list-container.collapsed .table-responsive {
@@ -124,4 +138,10 @@
 
 .process-list-container table td i.fa-ban {
     color: orange;
+}
+
+@media (min-width: 768px) {
+    .process-container table {
+        table-layout: fixed;
+    }
 }
