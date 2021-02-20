@@ -82,11 +82,35 @@ export class MapComponent implements AfterViewInit {
         if (mapConf[mapId]) {
             // This is a static map.
             conf = mapConf[mapId];
+
+            this.addMapInternal(conf, mapId);
         } else {
             // This is a dynamic map. The layer IDs must contain the generation date.
-            // TODO: Implement
+            this.mapService.getMap(mapId).subscribe(data => {
+                this.addMapInternal(data, mapId);
+            },
+            err => {
+                // If we get an Unauthorized response, the user is not allowed to use the app. Go back to the login page.
+                if (err.status === 401) {
+                    this.router.navigate(["login"]);
+                    // Else if the response is Forbidden, the user is not allowed to see the data.
+                } else if (err.status === 403) {
+                    this.alertService.alert(AlertType.ERROR, 'You are not eligible to access proprietary data. Sorry.');
+                } else if (err.status === 404) {
+                    this.alertService.alert(AlertType.ERROR, 'The selected map could not be found.');
+                }
+            });
         }
 
+
+    }
+
+    /**
+     * Adds a product map (set of layers) to the map. Shared functionality between static and dynamic maps.
+     * @param conf
+     * @param mapId
+     */
+    private addMapInternal(conf: ProductMap, mapId: string) {
         const singleLyr = conf.layers.length === 1;
 
         for (let i = 0; i < conf.layers.length; ++i) {
@@ -113,7 +137,7 @@ export class MapComponent implements AfterViewInit {
             if (!layer || layer.type === ProductLayerType.VECTOR) {
                 await this.addVectorLayer(layer, grp);
             } else {
-                this.addRasterLayer(layer, grp);
+                await this.addRasterLayer(layer, grp);
             }
         }
     }

@@ -87,6 +87,7 @@ export class HomePage implements OnInit {
      */
     public showMap(mapId: string): void {
         this.map.addMap(mapId);
+        this.mode = "";
     }
 
     /**

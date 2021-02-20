@@ -117,4 +117,14 @@ export class JobQueryComponent implements OnInit {
                 });
         }
     }
+
+    /**
+     * Event listener for displaying process results on the map.
+     * @param job
+     */
+    public displayMap(job: Job) {
+        if (job.status === JobState.SUCCESS || job.status === JobState.PARTIAL) {
+            this.showMap.emit(job.id.toString());
+        }
+    }
 }
