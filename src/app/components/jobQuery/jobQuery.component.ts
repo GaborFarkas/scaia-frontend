@@ -1,6 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { Job } from 'src/app/models/job.model';
+import { Job, JobState } from 'src/app/models/job.model';
 import AlertService from 'src/app/services/alert.service';
 import JobService from 'src/app/services/job.service';
 
@@ -11,6 +11,7 @@ import JobService from 'src/app/services/job.service';
 })
 export class JobQueryComponent implements OnInit {
     public jobs: Record<string, Job[]> = {};
+    public jobState = JobState;
 
     @Output() showMap = new EventEmitter<string>();
 
@@ -20,6 +21,7 @@ export class JobQueryComponent implements OnInit {
         private router: Router) { }
 
     ngOnInit(): void {
+        console.log(JobState.CANCELED);
         this.jobService.getPublicJobs().subscribe(data => {
             if (data.length) {
                 this.jobs['Public products'] = data;

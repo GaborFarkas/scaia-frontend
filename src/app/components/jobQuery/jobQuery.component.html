@@ -3,9 +3,49 @@
         <span>Products</span>
     </div>
     <div class="process-lists">
-        <div *ngFor="let job of jobs | keyvalue" class="process-list-container">
-            <h5 (click)="toggleExpand($event)">{{job.key}}</h5>
-            <ul></ul>
+        <div *ngFor="let joblist of jobs | keyvalue" class="process-list-container">
+            <h5 (click)="toggleExpand($event)">{{joblist.key}}</h5>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col" class="text-center">Created</th>
+                            <th scope="col" class="text-center">State</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let job of joblist.value">
+                            <td class="align-middle">{{job.name}}</td>
+                            <td class="text-center align-middle">{{job.timestamp}}</td>
+                            <td class="text-center align-middle">
+                                <span [ngSwitch]="job.status">
+                                    <i *ngSwitchCase="jobState.RUNNING" class="fas fa-running"></i>
+                                    <i *ngSwitchCase="jobState.SUCCESS" class="fas fa-check-circle"></i>
+                                    <i *ngSwitchCase="jobState.PARTIAL" class="fas fa-exclamation-triangle"></i>
+                                    <i *ngSwitchCase="jobState.ERROR" class="fas fa-exclamation-circle"></i>
+                                    <i *ngSwitchCase="jobState.CANCELLED" class="fas fa-ban"></i>
+                                </span>
+                            </td>
+                            <td class="text-center align-middle">
+                                <div [class]="'btn btn-info' + (job.status === jobState.SUCCESS || job.status === jobState.PARTIAL ? '' : ' disabled')">
+                                    <i class="fas fa-map"></i>Display
+                                </div>
+                                <div [class]="'btn btn-info' + (job.status === jobState.SUCCESS || job.status === jobState.PARTIAL ? '' : ' disabled')">
+                                    <i class="fas fa-download"></i>Download
+                                </div>
+                                <div *ngIf="job.status === jobState.RUNNING" [class]="'btn btn-info' + (job.own ? '' : ' disabled')">
+                                    <i class="fas fa-ban"></i>Cancel
+                                </div>
+                                <div *ngIf="job.status !== jobState.RUNNING" [class]="'btn btn-info' + (job.own ? '' : ' disabled')">
+                                    <i class="fas fa-trash"></i>Remove
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
