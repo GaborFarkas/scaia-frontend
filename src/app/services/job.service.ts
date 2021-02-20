@@ -17,9 +17,21 @@ export default class JobService {
     }
 
     getUserJobs(): Observable<Job[]> {
-        let jobUrl: string = this.baseUrl + '/get_jobs?user=u';
+        let jobUrl: string = this.baseUrl + '/get_jobs?user';
 
         return this.http.get<Job[]>(jobUrl);
+    }
+
+    cancelJob(id: number): Observable<null> {
+        let jobUrl: string = this.baseUrl + '/cancel_job?id=' + id;
+
+        return this.http.get<null>(jobUrl);
+    }
+
+    removeJob(id: number): Observable<null> {
+        let jobUrl: string = this.baseUrl + '/remove_job?id=' + id;
+
+        return this.http.get<null>(jobUrl);
     }
 
 }

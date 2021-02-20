@@ -25,7 +25,7 @@
                                     <i *ngSwitchCase="jobState.SUCCESS" class="fas fa-check-circle"></i>
                                     <i *ngSwitchCase="jobState.PARTIAL" class="fas fa-exclamation-triangle"></i>
                                     <i *ngSwitchCase="jobState.ERROR" class="fas fa-exclamation-circle"></i>
-                                    <i *ngSwitchCase="jobState.CANCELLED" class="fas fa-ban"></i>
+                                    <i *ngSwitchCase="jobState.CANCELED" class="fas fa-ban"></i>
                                 </span>
                             </td>
                             <td class="text-center align-middle">
@@ -35,10 +35,14 @@
                                 <div [class]="'btn btn-info' + (job.status === jobState.SUCCESS || job.status === jobState.PARTIAL ? '' : ' disabled')">
                                     <i class="fas fa-download"></i>Download
                                 </div>
-                                <div *ngIf="job.status === jobState.RUNNING" [class]="'btn btn-info' + (job.own ? '' : ' disabled')">
+                                <div *ngIf="job.status === jobState.RUNNING" [class]="'btn btn-info' + (job.own ? '' : ' disabled')"
+                                    (click)="cancelJob(job)"
+                                >
                                     <i class="fas fa-ban"></i>Cancel
                                 </div>
-                                <div *ngIf="job.status !== jobState.RUNNING" [class]="'btn btn-info' + (job.own ? '' : ' disabled')">
+                                <div *ngIf="job.status !== jobState.RUNNING" [class]="'btn btn-info' + (job.own ? '' : ' disabled')"
+                                (click)="removeJob(job)"
+                                >
                                     <i class="fas fa-trash"></i>Remove
                                 </div>
                             </td>
