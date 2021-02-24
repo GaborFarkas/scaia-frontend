@@ -77,7 +77,7 @@ export class UserSettingsComponent implements OnInit {
                 this.errorMsg = 'Automated attempt detected. Please try again.';
                 break;
             case UserSettingsError.TOKEN:
-                this.errorMsg = 'Invalid token. Please try again.';
+                this.errorMsg = 'Invalid token. Please reload the page and try again.';
                 break;
             case UserSettingsError.SERVER:
                 this.errorMsg = 'The server is down or encountered an unexpected error. Please try again later.';

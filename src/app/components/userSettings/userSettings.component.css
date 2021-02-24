@@ -30,3 +30,14 @@
     width: 100%;
     padding: 0 20px;
 }
+
+.form-validation {
+    width: 100%;
+    font-size: small;
+    color: red;
+    margin-left: 10px;
+}
+
+.generic-error {
+    clear: both;
+}

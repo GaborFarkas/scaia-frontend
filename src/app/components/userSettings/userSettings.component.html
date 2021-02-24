@@ -3,6 +3,7 @@
         <span>User settings</span>
     </div>
 
+    <p *ngIf="errorMsg" class="form-validation generic-error">{{errorMsg}}</p>
     <form class="settings-form" [formGroup]="userSettingsForm" (ngSubmit)="onSubmit(userSettingsForm.value)">
         <div class="form-group">
             <label>First name</label>
