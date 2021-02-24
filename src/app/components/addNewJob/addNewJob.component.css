@@ -121,3 +121,22 @@
     white-space: pre-line;
     text-align: center;
 }
+
+.form-container {
+    width: 100%;
+    height: 100%;
+}
+
+.form-container form {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    align-items: center;
+}
+
+.form-container form .form-group {
+    width: 100%;
+    padding: 0 20px;
+}

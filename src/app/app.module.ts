@@ -20,7 +20,8 @@ import { ForgotPasswdComponent } from './components/forgotPasswd';
 import { ResetPasswdComponent } from './components/resetPasswd';
 import { NavbarComponent } from './components/navbar';
 import { AlertComponent } from './components/alert';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 
 @NgModule({
   declarations: [     //array, which contains all the components, used by the app
@@ -47,7 +48,10 @@ import { AlertComponent } from './components/alert';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
