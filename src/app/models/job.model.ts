@@ -15,3 +15,13 @@ export enum JobState {
     ERROR = 'error',
     CANCELED = 'canceled'
 }
+
+export interface NewJobResponse {
+    token?: string,
+    error?: NewJobError
+}
+
+export enum NewJobError {
+    INPUT = 'input',
+    TOKEN = 'token'
+}

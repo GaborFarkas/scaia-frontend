@@ -21,21 +21,30 @@
     </div>
 
     <div *ngIf="activeNode && activeNode.inputs" class="form-container">
-        <form>
-            <div *ngFor="let input of activeNode.inputs" class="form-group">
+        <p *ngIf="errorMsg" class="form-validation generic-error">{{errorMsg}}</p>
+        <form [formGroup]="newJobForm" (ngSubmit)="onSubmit(newJobForm.value)">
+            <div *ngFor="let input of activeNode.inputs; index as i" class="form-group">
                 <label>{{input.name}}</label>
                 <div class="input-group">
-                    <div class="input-group-prepend">
+                    <div class="input-group-prepend" [owlDateTimeTrigger]="dt">
                         <div class="input-group-text">
-                            <span class="trigger" [owlDateTimeTrigger]="dt1">
+                            <span class="trigger">
                                 <i class="fas fa-calendar-alt"></i>
                             </span>
                         </div>
                     </div>
-                    <input class="form-control" [owlDateTime]="dt1">
-                    <owl-date-time #dt1 [pickerType]="'calendar'" [firstDayOfWeek]="1"></owl-date-time>
+                    <input class="form-control" [owlDateTime]="dt" [formControlName]="'param' + i">
+                    <owl-date-time #dt [pickerType]="'calendar'" [firstDayOfWeek]="1"></owl-date-time>
+                    <div
+                        *ngIf="submitted && newJobForm.controls['param' + i].errors && newJobForm.controls['param' + i].errors.required"
+                        class="form-validation"
+                    >A valid date is required.</div>
                 </div>
             </div>
+
+            <input type="hidden" formControlName="csrf">
+
+            <input class="btn btn-dark" type="submit" value="Generate product">
         </form>
     </div>
 </div>
