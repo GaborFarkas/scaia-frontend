@@ -1,8 +1,7 @@
 export interface ProductLayer {
     id: string,
     type: ProductLayerType,
-    name: string,
-    mapfile?: string
+    name: string
 }
 
 export enum ProductLayerType {

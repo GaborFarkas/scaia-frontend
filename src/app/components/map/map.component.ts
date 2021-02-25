@@ -114,7 +114,7 @@ export class MapComponent implements AfterViewInit {
         const singleLyr = conf.layers.length === 1;
 
         for (let i = 0; i < conf.layers.length; ++i) {
-            this.addLayer(conf.layers[i], singleLyr ? undefined : mapId, singleLyr ? undefined : conf.name);
+            this.addLayer(conf.layers[i], conf.mapfile, singleLyr ? undefined : mapId, singleLyr ? undefined : conf.name);
         }
     }
 
@@ -123,7 +123,7 @@ export class MapComponent implements AfterViewInit {
      * @param layer Layer descriptor for the layer to add
      * @param groupId ID of the layer group this layer belongs to
      */
-    public async addLayer(layer?: ProductLayer, groupId?: string, groupName?: string): Promise<void> {
+    public async addLayer(layer?: ProductLayer, mapfile?: string, groupId?: string, groupName?: string): Promise<void> {
         const lyr = this.getLayer(layer ? layer.id : 'baselayer', groupId);
 
         if (lyr) {
@@ -137,7 +137,7 @@ export class MapComponent implements AfterViewInit {
             if (!layer || layer.type === ProductLayerType.VECTOR) {
                 await this.addVectorLayer(layer, grp);
             } else {
-                await this.addRasterLayer(layer, grp);
+                await this.addRasterLayer(layer, mapfile, grp);
             }
         }
     }
@@ -199,12 +199,12 @@ export class MapComponent implements AfterViewInit {
      * Adds a new raster layer (WMS) to the map.
      * @param layer Layer description
      */
-    private async addRasterLayer(layer: ProductLayer, group: LayerGroup): Promise<void> {
+    private async addRasterLayer(layer: ProductLayer, mapfile: string, group: LayerGroup): Promise<void> {
         const style = (await this.configService.getStylesAsync())[layer.id];
 
         const lyr = new TileLayer({
             source: new TileWMS({
-                url: GlobalConstants.baseUrl + '/mapserv?map=' + layer.mapfile,
+                url: GlobalConstants.baseUrl + '/mapserv?map=' + mapfile,
                 params: {
                     layers: layer.id
                 }
