@@ -41,10 +41,13 @@ export default class JobService {
         return this.http.get<NewJobResponse>(jobUrl);
     }
 
-    newJobPost(requestData: Record<string, any>): Observable<NewJobResponse> {
+    newJobPost(requestData: Record<string, any>, productId: string): Observable<NewJobResponse> {
         let jobUrl: string = this.baseUrl + '/new_job';
 
-        return this.http.post<NewJobResponse>(jobUrl, modelToFormData(this.processNewJobRequest(requestData)));
+        const formData: FormData = modelToFormData(this.processNewJobRequest(requestData));
+        formData.append('prodid', productId);
+
+        return this.http.post<NewJobResponse>(jobUrl, formData);
     }
 
     /**

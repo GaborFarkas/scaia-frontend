@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <div *ngIf="activeNode && activeNode.inputs" class="form-container">
+    <div *ngIf="activeNode && activeNode.type === 'process'" class="form-container">
         <p *ngIf="errorMsg" class="form-validation generic-error">{{errorMsg}}</p>
         <form [formGroup]="newJobForm" (ngSubmit)="onSubmit(newJobForm.value)">
             <div *ngFor="let input of activeNode.inputs; index as i" class="form-group">

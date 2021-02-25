@@ -105,7 +105,7 @@ export class AddNewJobComponent implements OnInit {
         this.submitted = true;
 
         if (this.newJobForm.valid) {
-            this.jobService.newJobPost(formData).subscribe(data => {
+            this.jobService.newJobPost(formData, this.activeNode.id).subscribe(data => {
                 if (data.error) {
                     switch (data.error) {
                         case NewJobError.INPUT:
@@ -126,9 +126,12 @@ export class AddNewJobComponent implements OnInit {
                     this.router.navigate(["login"]);
                 } else if (err.status === 403) {
                     this.alertService.alert(AlertType.ERROR, 'You are not eligible to start a new process.');
+                } else if (err.status === 404) {
+                    this.alertService.alert(AlertType.ERROR, 'Could not find the specified product.');
                 } else {
                     this.alertService.alert(AlertType.ERROR, 'An unexpected error happened, please try again later.');
                 }
+                this.close.emit();
             });
         }
     }
