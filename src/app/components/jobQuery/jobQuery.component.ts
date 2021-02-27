@@ -13,6 +13,7 @@ import JobService from 'src/app/services/job.service';
 export class JobQueryComponent implements OnInit {
     public jobs: Record<string, Job[]> = {};
     public jobState = JobState;
+    public intervalKey: number;
 
     @Output() showMap = new EventEmitter<string>();
 
@@ -47,6 +48,14 @@ export class JobQueryComponent implements OnInit {
                 this.jobs['User products'] = data;
             } else if (this.jobs['User products']) {
                 delete this.jobs['User products'];
+            }
+
+            if (data.some(i => i.status === JobState.RUNNING)) {
+                if (!this.intervalKey) {
+                    this.intervalKey = window.setInterval(this.refreshUserJobs.bind(this), 5000);
+                }
+            } else if (this.intervalKey) {
+                clearInterval(this.intervalKey);
             }
         },
             err => {

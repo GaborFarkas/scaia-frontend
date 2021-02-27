@@ -106,7 +106,7 @@ export class AddNewJobComponent implements OnInit {
 
         if (this.newJobForm.valid) {
             this.jobService.newJobPost(formData, this.activeNode.id).subscribe(data => {
-                if (data.error) {
+                if (data && data.error) {
                     switch (data.error) {
                         case NewJobError.INPUT:
                             this.errorMsg = 'One or more of the input fields are invalid.';
