@@ -111,10 +111,8 @@ export class MapComponent implements AfterViewInit {
      * @param mapId
      */
     private addMapInternal(conf: ProductMap, mapId: string) {
-        const singleLyr = conf.layers.length === 1;
-
         for (let i = 0; i < conf.layers.length; ++i) {
-            this.addLayer(conf.layers[i], conf.mapfile, singleLyr ? undefined : mapId, singleLyr ? undefined : conf.name);
+            this.addLayer(conf, conf.layers[i], mapId);
         }
     }
 
@@ -123,21 +121,27 @@ export class MapComponent implements AfterViewInit {
      * @param layer Layer descriptor for the layer to add
      * @param groupId ID of the layer group this layer belongs to
      */
-    public async addLayer(layer?: ProductLayer, mapfile?: string, groupId?: string, groupName?: string): Promise<void> {
-        const lyr = this.getLayer(layer ? layer.id : 'baselayer', groupId);
+    public async addLayer(conf?: ProductMap, layer?: ProductLayer, mapId?: string): Promise<void> {
+        // Map ID can be a group ID or layer ID. If it is a group ID, it cannot be a layer ID.
+        // If we have a single layer in the group, we don't need a group at all.
+        const groupId = conf?.layers.length === 1 ? null : mapId;
+        // If we have a groupId, we must also have a layer as well.
+        const layerId = groupId ? layer.id : mapId;
+        // layerId will be only null when the base layer is loaded.
+        const lyr = this.getLayer(layerId || 'baselayer', groupId);
 
         if (lyr) {
             lyr.setVisible(true);
         } else {
             let grp: LayerGroup;
-            if (groupId) {
-                grp = this.getOrCreateGroup(groupId, groupName);
+            if (mapId) {
+                grp = this.getOrCreateGroup(mapId, conf.name);
             }
 
             if (!layer || layer.type === ProductLayerType.VECTOR) {
-                await this.addVectorLayer(layer, grp);
+                await this.addVectorLayer(layer, mapId, grp);
             } else {
-                await this.addRasterLayer(layer, mapfile, grp);
+                await this.addRasterLayer(layer, conf.mapfile, grp);
             }
         }
     }
@@ -147,10 +151,10 @@ export class MapComponent implements AfterViewInit {
      * @param layer Layer description
      * @param group Layer group to put this layer in
      */
-    private async addVectorLayer(layer?: ProductLayer, group?: LayerGroup): Promise<void> {
+    private async addVectorLayer(layer?: ProductLayer, mapId?: string, group?: LayerGroup): Promise<void> {
         const style = layer ? (await this.configService.getStylesAsync())[layer.id] : await this.configService.getBaseStyleAsync();
 
-        this.mapService.getVectorLayer(layer ? layer.id : undefined).subscribe(data => {
+        this.mapService.getVectorLayer(layer ? layer.id : undefined, mapId).subscribe(data => {
             const lyr = new VectorLayer({
                 source: new VectorSource({
                     features: new GeoJSON().readFeatures(data)

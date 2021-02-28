@@ -11,10 +11,13 @@ export default class MapService {
 
     constructor(private http: HttpClient) { }
 
-    getVectorLayer(id?: string): Observable<GeoJSON> {
+    getVectorLayer(layerId?: string, jobId?: string): Observable<GeoJSON> {
         let mapUrl: string = this.baseUrl + '/get_geojson';
-        if (id) {
-            mapUrl += '?id=' + id;
+        if (layerId) {
+            mapUrl += '?lyrid=' + layerId;
+        }
+        if (jobId) {
+            mapUrl += (mapUrl.indexOf('?') !== -1 ? '&' : '?') + 'jobid=' + jobId;
         }
 
         return this.http.get<GeoJSON>(mapUrl);
