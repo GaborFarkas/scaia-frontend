@@ -1,6 +1,9 @@
 <div class="process-container">
     <div class="process-header">
         <span>User settings</span>
+        <div class="navigate-back" (click)="onClose()">
+            <span><i class="fas fa-times-circle"></i>Close</span>
+        </div>
     </div>
 
     <p *ngIf="errorMsg" class="form-validation generic-error">{{errorMsg}}</p>

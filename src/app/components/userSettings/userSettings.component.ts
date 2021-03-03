@@ -23,6 +23,8 @@ export class UserSettingsComponent implements OnInit {
     public minPwLength: number = 0;
     public maxPwLength: number = Infinity;
 
+    @Output() close = new EventEmitter();
+
     constructor(
         private authService: AuthService,
         private router: Router,
@@ -133,6 +135,13 @@ export class UserSettingsComponent implements OnInit {
             //Navigate back to the login page if the change was successful.
             this.router.navigate(["login"]);
         }
+    }
+
+    /**
+     * Listener for sending a close window request.
+     */
+    public onClose(): void {
+        this.close.emit();
     }
 }
 

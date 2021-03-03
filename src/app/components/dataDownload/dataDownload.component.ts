@@ -16,6 +16,7 @@ export class DataDownloadComponent implements AfterViewInit {
     @Input() mapId: string;
 
     @Output() close = new EventEmitter();
+    @Output() back = new EventEmitter();
 
     constructor(
         private downloadService: DownloadService,
@@ -26,6 +27,13 @@ export class DataDownloadComponent implements AfterViewInit {
         if (this.mapId) {
             this.getMapDownload(this.mapId);
         }
+    }
+
+    /**
+     * Sends a request to go back to the product list page.
+     */
+    public goBack(): void {
+        this.back.emit();
     }
 
     /**

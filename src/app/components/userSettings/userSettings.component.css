@@ -41,3 +41,10 @@
 .generic-error {
     clear: both;
 }
+
+.process-header .navigate-back {
+    user-select: none;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+}

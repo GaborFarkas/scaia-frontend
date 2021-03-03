@@ -1,6 +1,9 @@
 <div class="process-container">
     <div *ngIf="map" class="process-header">
         <span>{{map.name}}</span>
+        <div class="navigate-back" (click)="goBack()">
+            <span><i class="fas fa-arrow-circle-left"></i>Back</span>
+        </div>
     </div>
 
     <div *ngIf="map && map.layers" class="btn-container">
