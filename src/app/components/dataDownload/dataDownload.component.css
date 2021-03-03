@@ -1,11 +1,10 @@
 .process-container{
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
     width: 100%;
     height: 100%;
     overflow-y: auto;
+    padding-bottom: 1em;
 }
 
 .process-header {
@@ -32,9 +31,15 @@
     grid-auto-flow: row;
     row-gap: 4em;
     padding: 0 2em;
-    grid-template-columns: 1fr 1fr;
     column-gap: 2em;
+    margin: auto;
 }
+
+@media (min-width: 768px) {
+    .download-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+  }
 
 .download-grid img {
     object-fit: contain;
