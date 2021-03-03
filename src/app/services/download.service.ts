@@ -15,4 +15,8 @@ export default class DownloadService {
 
         return this.http.get<ProductMapDownload>(downloadUrl);
     }
+
+    getDownloadLink(mapId: string, layerId: string): string {
+        return this.baseUrl + '/download_layer?id=' + mapId + '&layer=' + layerId;
+    }
 }

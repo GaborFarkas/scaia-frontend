@@ -57,4 +57,25 @@ export class DataDownloadComponent implements AfterViewInit {
             this.close.emit();
         });
     }
+
+    /**
+     * Formats a size in bytes to a size label
+     */
+    public formatSize(size: number): string {
+        const units = ['bytes', 'KB', 'MB', 'GB'];
+        let i = 0;
+
+        while (size > 1024 && i < units.length) {
+            i++;
+            size /= 1024;
+        }
+
+        const rounded = Math.round(size * 10) / 10;
+
+        return rounded.toString() + ' ' + units[i];
+    }
+
+    public getDownloadLink(layerId: string): string {
+        return this.downloadService.getDownloadLink(this.mapId, layerId);
+    }
 }

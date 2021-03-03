@@ -6,12 +6,26 @@
         </div>
     </div>
 
-    <div *ngIf="map && map.layers" class="btn-container">
-        <div class="btn-grid">
-            <div *ngFor="let layer of map.layers" class="btn1-div">
-                <button class="process-btn btn1">
-                    <span class="btn-text">{{layer.name}}</span>
-                </button>
+    <div *ngIf="map && map.layers" class="process-container">
+        <div class="download-grid">
+            <div *ngFor="let layer of map.layers" class="card">
+                <div>
+                    <img [class]="layer.available ? '' : 'greyscale'"
+                        [src]="'/assets/images/' + layer.type + '.png'"
+                        [title]="layer.available ? '' : 'This layer is not available for download.'"
+                    />
+                    <a *ngIf="layer.available" [href]="getDownloadLink(layer.id)" target="_blank">
+                        <div class="download-icon available">
+                            <i class="fas fa-download"></i>
+                        </div>
+                    </a>
+                    <div *ngIf="!layer.available" class="download-icon unavailable" title="This layer is not available for download.">
+                        <i class="fas fa-ban"></i>
+                    </div>
+                </div>
+                <span class="download-text">Name: {{layer.name}}</span>
+                <span *ngIf="layer.available" class="download-text">Format: {{layer.type === 'vector' ? 'GeoJSON' : 'GeoTIFF'}}</span>
+                <span *ngIf="layer.available" class="download-text">Size: {{formatSize(layer.size)}}</span>
             </div>
         </div>
     </div>

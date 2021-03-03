@@ -9,7 +9,7 @@
         <app-userSettings *ngIf="mode === 'userSettings'" [userSettings]="userData" (close)="close()"></app-userSettings>
         <app-addNewJob #addNewJob *ngIf="mode === 'addNewJob'" [navigateId]="navigateId" (showMap)="showMap($event)" (close)="close()" (getHelp)="onHelp($event)"></app-addNewJob>
         <app-jobQuery *ngIf="mode === 'jobQuery'" (showMap)="showMap($event)" (downloadMap)="onDownload($event)"></app-jobQuery>
-        <app-dataDownload #dataDownload *ngIf="mode === 'dataDownload'" [mapId]="downloadId" (close)="close()" (back)="openProductList()"></app-dataDownload>
+        <app-dataDownload *ngIf="mode === 'dataDownload'" [mapId]="downloadId" (close)="close()" (back)="openProductList()"></app-dataDownload>
         <app-contact *ngIf="mode === 'contact'"></app-contact>
         <app-help #help *ngIf="mode === 'help'" [navigateId]="navigateId" (navigateBack)="onHelpBack()"></app-help>
         <app-tutorial *ngIf="mode === 'tutorial'"></app-tutorial>

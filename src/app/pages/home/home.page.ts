@@ -7,7 +7,6 @@ import { NavbarComponent } from 'src/app/components/navbar';
 import { MapComponent } from 'src/app/components/map';
 import { AddNewJobComponent } from 'src/app/components/addNewJob';
 import { HelpComponent } from 'src/app/components/help';
-import { DataDownloadComponent } from 'src/app/components/dataDownload';
 
 @Component({
     templateUrl: 'home.page.html',
@@ -24,7 +23,6 @@ export class HomePage implements OnInit {
     @ViewChild('map') map: MapComponent;
     @ViewChild('help') help: HelpComponent;
     @ViewChild('addNewJob') addNewJob: AddNewJobComponent;
-    @ViewChild('dataDownload') dataDownload: DataDownloadComponent;
 
     constructor(
         private authService: AuthService,
@@ -115,5 +113,12 @@ export class HomePage implements OnInit {
     public onHelp(id: string): void {
         this.navigateId = id;
         this.mode = 'help';
+    }
+
+    /**
+     * Opens the product list page.
+     */
+    public openProductList(): void {
+        this.mode = 'jobQuery';
     }
 }
