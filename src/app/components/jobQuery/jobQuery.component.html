@@ -34,7 +34,9 @@
                                 >
                                     <i class="fas fa-map"></i>Display
                                 </div>
-                                <div [class]="'btn btn-info' + (job.status === jobState.SUCCESS || job.status === jobState.PARTIAL ? '' : ' disabled')">
+                                <div [class]="'btn btn-info' + (job.status === jobState.SUCCESS || job.status === jobState.PARTIAL ? '' : ' disabled')"
+                                    (click)="onDownload(job)"
+                                >
                                     <i class="fas fa-download"></i>Download
                                 </div>
                                 <div *ngIf="job.status === jobState.RUNNING" [class]="'btn btn-info' + (job.own ? '' : ' disabled')"

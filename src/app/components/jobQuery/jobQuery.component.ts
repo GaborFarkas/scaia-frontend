@@ -16,6 +16,7 @@ export class JobQueryComponent implements OnInit {
     public intervalKey: number;
 
     @Output() showMap = new EventEmitter<string>();
+    @Output() downloadMap = new EventEmitter<string>();
 
     constructor(
         private jobService: JobService,
@@ -134,6 +135,15 @@ export class JobQueryComponent implements OnInit {
     public displayMap(job: Job) {
         if (job.status === JobState.SUCCESS || job.status === JobState.PARTIAL) {
             this.showMap.emit(job.id.toString());
+        }
+    }
+
+    /**
+     * Event listener for changing to the download screen.
+     */
+    public onDownload(job: Job) {
+        if (job.status === JobState.SUCCESS || job.status === JobState.PARTIAL) {
+            this.downloadMap.emit(job.id.toString());
         }
     }
 }

@@ -5,9 +5,9 @@ import { UserData } from 'src/app/models/userdata.model';
 import ConfigService from 'src/app/services/config.service';
 import { NavbarComponent } from 'src/app/components/navbar';
 import { MapComponent } from 'src/app/components/map';
-import { ThrowStmt } from '@angular/compiler';
 import { AddNewJobComponent } from 'src/app/components/addNewJob';
 import { HelpComponent } from 'src/app/components/help';
+import { DataDownloadComponent } from 'src/app/components/dataDownload';
 
 @Component({
     templateUrl: 'home.page.html',
@@ -19,10 +19,12 @@ export class HomePage implements OnInit {
     public mode: string = '';
 
     private navigateId: string = '';
+    private downloadId: string = '';
 
     @ViewChild('map') map: MapComponent;
     @ViewChild('help') help: HelpComponent;
     @ViewChild('addNewJob') addNewJob: AddNewJobComponent;
+    @ViewChild('dataDownload') dataDownload: DataDownloadComponent;
 
     constructor(
         private authService: AuthService,
@@ -88,6 +90,14 @@ export class HomePage implements OnInit {
     public showMap(mapId: string): void {
         this.map.addMap(mapId);
         this.mode = "";
+    }
+
+    /**
+     * Navigates to the download page
+     */
+    public onDownload(mapId: string): void {
+        this.downloadId = mapId;
+        this.mode = 'dataDownload';
     }
 
     /**

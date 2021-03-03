@@ -1,1 +1,15 @@
-<h1>Data Download</h1>
+<div class="process-container">
+    <div *ngIf="map" class="process-header">
+        <span>{{map.name}}</span>
+    </div>
+
+    <div *ngIf="map && map.layers" class="btn-container">
+        <div class="btn-grid">
+            <div *ngFor="let layer of map.layers" class="btn1-div">
+                <button class="process-btn btn1">
+                    <span class="btn-text">{{layer.name}}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
