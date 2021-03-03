@@ -9,9 +9,7 @@ import { RegisterComponent } from './components/register';
 import { AddNewJobComponent } from './components/addNewJob';
 import { JobQueryComponent } from './components/jobQuery';
 import { DataDownloadComponent } from './components/dataDownload';
-import { ContactComponent } from './components/contact';
 import { HelpComponent } from './components/help';
-import { TutorialComponent } from './components/tutorial';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MapComponent } from './components/map';
@@ -35,9 +33,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angul
     AddNewJobComponent,
     JobQueryComponent,
     DataDownloadComponent,
-    ContactComponent,
     HelpComponent,
-    TutorialComponent,
     NavbarComponent,
     MapComponent,
     UserSettingsComponent,
