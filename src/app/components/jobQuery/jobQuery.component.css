@@ -133,7 +133,7 @@
     color: yellow;
 }
 
-.process-list-container table td i.fa-exclamation-circle {
+.process-list-container table td i.fa-times-circle {
     color: red;
 }
 
