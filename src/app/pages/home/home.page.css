@@ -63,6 +63,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(10px);
 }
 
 .title_text{
@@ -82,7 +83,7 @@ app-map {
   position: relative;
 }
 
-app-addnewjob, app-help, app-usersettings, app-jobquery, app-datadownload {
+app-addnewjob, app-help, app-usersettings, app-jobquery, app-datadownload, app-about {
   height: 100%;
   width: 100%;
 }

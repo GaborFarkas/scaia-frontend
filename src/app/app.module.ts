@@ -20,6 +20,7 @@ import { NavbarComponent } from './components/navbar';
 import { AlertComponent } from './components/alert';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
+import { AboutComponent } from './components/about';
 
 @NgModule({
   declarations: [     //array, which contains all the components, used by the app
@@ -37,7 +38,8 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angul
     NavbarComponent,
     MapComponent,
     UserSettingsComponent,
-    AlertComponent
+    AlertComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
